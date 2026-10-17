@@ -7,7 +7,6 @@ Progress lives in each visitor's browser (localStorage), per study partner profi
 from pathlib import Path
 
 import streamlit as st
-import streamlit.components.v1 as components
 
 WEB = Path(__file__).parent / "web"
 
@@ -47,4 +46,5 @@ def page(mtime: float) -> str:
     return build_page()
 
 
-components.html(page(max(f.stat().st_mtime for f in WEB.iterdir())), height=900, scrolling=True)
+# st.iframe replaces the deprecated components.v1.html; the CSS above stretches it to the window.
+st.iframe(page(max(f.stat().st_mtime for f in WEB.iterdir())), height=900)
