@@ -1,0 +1,597 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<title>SIE Study Partner</title>
+<style>
+:root{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2d3540; --text:#e6edf3; --muted:#8b949e;
+  --accent:#4f8cff; --accent2:#3b6fd1; --good:#2ea043; --good-bg:rgba(46,160,67,.14); --bad:#f85149; --bad-bg:rgba(248,81,73,.13);
+  --warn:#d29922; --warn-bg:rgba(210,153,34,.13); --radius:12px;
+}
+*{box-sizing:border-box}
+html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
+button{font:inherit;color:inherit}
+h1,h2,h3{line-height:1.25;margin:0 0 .5em}
+h1{font-size:1.5rem} h2{font-size:1.2rem} h3{font-size:1rem}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(13,17,23,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.brand{font-weight:800;letter-spacing:.3px;white-space:nowrap}.brand span{color:var(--accent);margin-left:3px}
+#tabs{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}#tabs::-webkit-scrollbar{display:none}
+.tab{background:none;border:0;padding:8px 12px;border-radius:8px;color:var(--muted);cursor:pointer;white-space:nowrap}
+.tab:hover{color:var(--text);background:var(--panel)}.tab.on{color:var(--text);background:var(--panel2);box-shadow:inset 0 -2px 0 var(--accent)}
+.who select{background:var(--panel);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:7px 8px;max-width:150px}
+main{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
+.card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:18px}
+.grid{display:grid;gap:14px}.g2{grid-template-columns:repeat(2,minmax(0,1fr))}.g4{grid-template-columns:repeat(4,minmax(0,1fr))}
+.row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.end{justify-content:flex-end}.between{justify-content:space-between}
+.muted{color:var(--muted)}.small{font-size:.85rem}.mt{margin-top:16px}.mb{margin-bottom:16px}
+.btn{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 14px;cursor:pointer;font-weight:600}
+.btn:hover{border-color:#46505e}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.primary:hover{background:var(--accent2)}
+.btn.good{background:var(--good);border-color:var(--good);color:#fff}.btn.bad{background:transparent;border-color:var(--bad);color:var(--bad)}
+.btn.danger{border-color:var(--bad);color:var(--bad);background:transparent}.btn.sm{padding:5px 10px;font-size:.85rem}
+.btn:disabled{opacity:.45;cursor:default}
+.link{background:none;border:0;color:var(--accent);cursor:pointer;padding:0;text-decoration:underline}
+.chips{display:flex;gap:6px;flex-wrap:wrap}.chip{background:var(--panel);border:1px solid var(--line);border-radius:99px;padding:6px 12px;cursor:pointer;color:var(--muted)}
+.chip.on{background:var(--accent);border-color:var(--accent);color:#fff}
+.pill{display:inline-block;background:var(--panel2);border:1px solid var(--line);border-radius:99px;padding:2px 10px;font-size:.8rem;color:var(--muted)}
+.bar{height:8px;background:var(--panel2);border-radius:99px;overflow:hidden}.bar i{display:block;height:100%;background:var(--accent);border-radius:99px}
+.bar.good i{background:var(--good)}.bar.warn i{background:var(--warn)}.bar.bad i{background:var(--bad)}
+input[type=text],textarea,select.inp{width:100%;background:var(--bg);color:var(--text);border:1px solid var(--line);border-radius:8px;padding:9px 10px;font:inherit}
+textarea{min-height:110px;font-family:ui-monospace,Menlo,monospace;font-size:.8rem}
+table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line)}th{color:var(--muted);font-weight:600;font-size:.85rem}
+.num{font-variant-numeric:tabular-nums}
+/* dashboard */
+.hero{display:flex;gap:22px;align-items:center}
+.ring{flex:0 0 auto}.ring text{fill:var(--text);font-weight:800}
+.stat b{display:block;font-size:1.5rem}.stat span{color:var(--muted);font-size:.85rem}
+.secrow{display:grid;grid-template-columns:minmax(0,1.6fr) minmax(0,1fr) auto;gap:14px;align-items:center;padding:12px 0;border-bottom:1px solid var(--line)}
+.secrow:last-child{border-bottom:0}
+/* slides */
+.slide{min-height:380px;display:flex;flex-direction:column}
+.slide ul{padding-left:20px;margin:0 0 12px}.slide li{margin:6px 0}
+.formula{background:#0b1020;border:1px solid #2a3a63;border-radius:10px;padding:12px 14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;white-space:pre-wrap;color:#cfe0ff;margin:6px 0 12px}
+.callout{border-radius:10px;padding:10px 14px;margin:6px 0;border-left:4px solid}
+.callout b{display:block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
+.trap{background:var(--bad-bg);border-color:var(--bad)}.trap b{color:var(--bad)}
+.fact{background:var(--good-bg);border-color:var(--good)}.fact b{color:#56d364}
+.dots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
+.dot{width:10px;height:10px;border-radius:50%;background:var(--line);border:0;padding:0;cursor:pointer}.dot.on{background:var(--accent);transform:scale(1.25)}
+/* flashcards */
+.flip{perspective:1400px;height:300px;cursor:pointer;margin:6px 0 14px}
+.flip .inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
+.flip.on .inner{transform:rotateY(180deg)}
+.face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;background:linear-gradient(160deg,#1d2533,#151a23)}
+.face .q{font-size:1.25rem;font-weight:700}.face .a{font-size:1.1rem}
+.face .lab{position:absolute;top:12px;left:16px;font-size:.75rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
+.back{transform:rotateY(180deg);background:linear-gradient(160deg,#16263b,#121a26)}
+.state{position:absolute;top:12px;right:16px}
+@media (prefers-reduced-motion:reduce){.flip .inner{transition:none}}
+/* questions */
+.stem{font-size:1.12rem;font-weight:600;margin:14px 0}
+.choices{list-style:none;padding:0;margin:0;display:grid;gap:8px}
+.choice{width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer}
+.choice:hover{border-color:#4a5566}.choice[tabindex="-1"]{cursor:default}
+.choice .letter{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px solid var(--line);font-size:.85rem}
+.choice span{flex:1}
+.choice.sel{border-color:var(--accent);background:rgba(79,140,255,.12)}.choice.sel .letter{background:var(--accent);border-color:var(--accent);color:#fff}
+.choice.good{border-color:var(--good);background:var(--good-bg)}.choice.good .letter{background:var(--good);border-color:var(--good);color:#fff}
+.choice.bad{border-color:var(--bad);background:var(--bad-bg)}.choice.bad .letter{background:var(--bad);border-color:var(--bad);color:#fff}
+.choice.dim{opacity:.75}
+.why{margin:4px 4px 8px 40px;font-size:.88rem;color:var(--muted)}.why.good{color:#7ee787}.why.bad{color:#ffa198}
+.tag{font-size:.72rem;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 8px;margin-left:4px;white-space:nowrap}
+.progress{height:5px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;background:var(--accent)}
+.vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
+.vsp{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
+.vsname{font-weight:700;margin-bottom:8px}.lbtns{display:flex;gap:6px;justify-content:center}
+.lbtn{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-weight:700}.lbtn:hover{border-color:var(--accent)}
+.locked{color:#7ee787;font-weight:600}
+.score2{display:flex;gap:8px;flex-wrap:wrap}
+/* exam */
+.exambar{position:sticky;top:57px;z-index:10;display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px}
+.timer{font:700 1.25rem ui-monospace,Menlo,monospace;min-width:92px}.timer.low{color:var(--bad)}
+.navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
+.nb{height:36px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-size:.8rem;position:relative}
+.nb.ans{background:rgba(79,140,255,.22);border-color:#3b5c9e}.nb.cur{outline:2px solid var(--accent);outline-offset:1px}
+.nb.flag::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--warn)}
+.paused{text-align:center;padding:60px 20px}
+.verdict{font-size:2rem;font-weight:800}.verdict.pass{color:#56d364}.verdict.fail{color:var(--bad)}
+.legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.rv{border-top:1px solid var(--line);padding:14px 0}
+.note{background:var(--warn-bg);border:1px solid rgba(210,153,34,.4);border-radius:10px;padding:10px 14px;font-size:.9rem}
+@media (max-width:760px){
+  .g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}
+  .hero{flex-direction:column;align-items:flex-start}
+  .secrow{grid-template-columns:1fr;gap:8px}
+  .top{flex-wrap:wrap;gap:8px}#tabs{order:3;flex-basis:100%}
+  .exambar{top:96px}
+  .flip{height:340px}.face .q{font-size:1.1rem}
+}
+@media (max-width:420px){.vs{grid-template-columns:1fr}.lbtn{width:40px;height:40px}}
+</style>
+</head>
+<body>
+<header class="top">
+  <div class="brand">SIE<span>Study</span></div>
+  <nav id="tabs" aria-label="Modules"></nav>
+  <div class="who"><select id="profileSel" aria-label="Active study partner"></select></div>
+</header>
+<main id="view"></main>
+
+<script src="content.js"></script>
+<script src="questions.js"></script>
+<script>
+(() => {
+'use strict';
+const C = window.SIE, QB = window.SIE_Q, EX = C.exam;
+const SEC = Object.fromEntries(C.sections.map(s => [s.id, s]));
+const DAY = 864e5, BOX_DAYS = [0, 1, 3, 7, 14, 30], QUIZ_LEN = 15, L = 'ABCD';
+const TABS = [['dash', 'Dashboard'], ['slides', 'Slides'], ['cards', 'Flashcards'], ['quiz', 'Quizzes'], ['exam', 'Mock Exam']];
+
+const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
+const hash = str => { let h = 5381; for (const ch of str) h = ((h * 33) ^ ch.charCodeAt(0)) >>> 0; return h.toString(36); };
+const shuffle = a => { a = a.slice(); for (let i = a.length - 1; i > 0; i--) { const j = Math.floor(Math.random() * (i + 1)); [a[i], a[j]] = [a[j], a[i]]; } return a; };
+const pct = x => Math.round(x * 100);
+const fmtDate = t => new Date(t).toLocaleDateString(undefined, { month: 'short', day: 'numeric' });
+const fmtTime = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); const h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return `${h}:${String(m).padStart(2, '0')}:${String(x).padStart(2, '0')}`; };
+const tone = p => p >= 0.7 ? 'good' : p >= 0.5 ? 'warn' : 'bad';
+
+C.cards.forEach(c => { c.id = 'c' + c.s + '-' + hash(c.f); });
+QB.forEach(q => { q.id = 'q' + q.s + '-' + hash(q.q); });
+const qById = Object.fromEntries(QB.map(q => [q.id, q]));
+
+/* ---------------- storage (per-browser; each profile is independent) ---------------- */
+const KEY = 'sie-study.v1';
+let memCopy = null;
+function load() { try { const raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch (e) {} return memCopy; }
+function save() { memCopy = DB; try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) {} }
+function blankProfile(name) { return { id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name, created: Date.now(), lastActive: Date.now(), cards: {}, quiz: {}, exams: [], slides: {}, exam: null }; }
+function addProfile(name) { const p = blankProfile(name); DB.profiles[p.id] = p; DB.order.push(p.id); return p.id; }
+let DB = load() || { profiles: {}, order: [], active: null };
+if (!DB.order.length) { DB.active = addProfile('Partner A'); addProfile('Partner B'); save(); }
+if (!DB.profiles[DB.active]) DB.active = DB.order[0];
+const profile = id => DB.profiles[id || DB.active];
+const P = () => profile();
+const touch = p => { p.lastActive = Date.now(); };
+// an exam left running when the page closed comes back paused
+DB.order.forEach(id => { const ex = DB.profiles[id].exam; if (ex) ex.paused = true; });
+
+/* ---------------- metrics ---------------- */
+function cardStats(p, s) {
+  const cards = C.cards.filter(c => !s || c.s === s); let m = 0, r = 0, n = 0, due = 0; const now = Date.now();
+  cards.forEach(c => { const st = p.cards[c.id]; if (!st) { n++; due++; } else { if (st.m) m++; else r++; if (st.due <= now) due++; } });
+  return { total: cards.length, mastered: m, review: r, fresh: n, due };
+}
+function recentAccuracy(p, s) {
+  const q = ((p.quiz[s] && p.quiz[s].attempts) || []).slice(-3).map(x => [x.correct, x.total]);
+  const e = p.exams.slice(-2).map(x => x.sections[s]).filter(x => x && x.total).map(x => [x.correct, x.total]);
+  const all = q.concat(e); if (!all.length) return null;
+  return all.reduce((a, b) => a + b[0], 0) / all.reduce((a, b) => a + b[1], 0);
+}
+function sectionMastery(p, s) {
+  const cs = cardStats(p, s), cardPct = cs.mastered / cs.total, acc = recentAccuracy(p, s);
+  return acc == null ? 0.4 * cardPct : 0.4 * cardPct + 0.6 * acc;
+}
+const readiness = p => C.sections.reduce((a, s) => a + s.weight * sectionMastery(p, s.id), 0) / 100;
+const readyLabel = r => r >= 0.85 ? 'Exam ready' : r >= 0.7 ? 'Nearly ready' : r >= 0.5 ? 'Building' : 'Getting started';
+const slidesSeen = p => Object.values(p.slides).reduce((a, v) => a + v.length, 0);
+const bestExam = p => p.exams.reduce((a, e) => Math.max(a, e.pct), -1);
+
+/* ---------------- UI state ---------------- */
+const UI = { tab: 'dash', slideSec: 1, slideIdx: 0, cardSec: 0, deck: null, cardIdx: 0, flipped: false,
+  quiz: null, vsSec: 1, examView: 'home', examResult: null, examNav: false, examConfirm: false, reviewAll: false,
+  confirmDel: null, renaming: null, io: null, ioText: '', msg: '' };
+const view = document.getElementById('view');
+
+function render() {
+  document.getElementById('tabs').innerHTML = TABS.map(([k, n]) => `<button class="tab ${UI.tab === k ? 'on' : ''}" data-act="tab" data-v="${k}">${n}</button>`).join('');
+  const sel = document.getElementById('profileSel');
+  sel.innerHTML = DB.order.map(id => `<option value="${id}" ${id === DB.active ? 'selected' : ''}>${esc(profile(id).name)}</option>`).join('') + '<option value="__manage">Manage partners…</option>';
+  view.innerHTML = ({ dash: viewDash, slides: viewSlides, cards: viewCards, quiz: viewQuiz, exam: viewExam })[UI.tab]();
+  if (UI.tab === 'exam' && UI.examView === 'take') updateTimer();
+}
+
+/* ---------------- dashboard ---------------- */
+function ring(r) {
+  const R = 52, c = 2 * Math.PI * R, col = r >= 0.7 ? 'var(--good)' : r >= 0.5 ? 'var(--warn)' : 'var(--accent)';
+  return `<svg class="ring" width="132" height="132" viewBox="0 0 132 132" role="img" aria-label="Readiness ${pct(r)} percent">
+    <circle cx="66" cy="66" r="${R}" fill="none" stroke="var(--panel2)" stroke-width="12"/>
+    ${r > 0.005 ? `<circle cx="66" cy="66" r="${R}" fill="none" stroke="${col}" stroke-width="12" stroke-linecap="round"
+      stroke-dasharray="${c * r} ${c}" transform="rotate(-90 66 66)"/>` : ''}
+    <text x="66" y="72" text-anchor="middle" font-size="26">${pct(r)}%</text></svg>`;
+}
+function viewDash() {
+  const p = P(), r = readiness(p), cs = cardStats(p), quizzes = Object.values(p.quiz).reduce((a, q) => a + q.attempts.length, 0), be = bestExam(p);
+  let h = `<div class="card hero">${ring(r)}<div><div class="muted small">Exam readiness · ${esc(p.name)}</div>
+    <h1>${readyLabel(r)}</h1>
+    <p class="muted small" style="margin:0">Each section = 40% flashcards mastered + 60% recent quiz &amp; mock accuracy, weighted by the official FINRA outline (16 / 44 / 31 / 9). Aim for 85%+ before booking.</p>
+    ${p.exam ? `<p class="mt"><button class="btn primary" data-act="tab" data-v="exam">Resume your mock exam (${fmtTime(p.exam.remaining)} left)</button></p>` : ''}</div></div>`;
+  h += `<div class="grid g4 mt">
+    <div class="card stat"><b class="num">${cs.mastered}/${cs.total}</b><span>Flashcards mastered</span></div>
+    <div class="card stat"><b class="num">${slidesSeen(p)}/${C.slides.length}</b><span>Slides viewed</span></div>
+    <div class="card stat"><b class="num">${quizzes}</b><span>Quizzes taken</span></div>
+    <div class="card stat"><b class="num">${be < 0 ? '—' : pct(be) + '%'}</b><span>Best mock exam</span></div></div>`;
+  h += `<div class="card mt"><h2>Mastery by section</h2>`;
+  C.sections.forEach(s => {
+    const m = sectionMastery(p, s.id), st = cardStats(p, s.id), acc = recentAccuracy(p, s.id);
+    h += `<div class="secrow"><div><b>${s.id}. ${esc(s.name)}</b><div class="muted small">${s.weight}% of exam · ${s.scored} scored questions</div></div>
+      <div><div class="row between small"><span>${pct(m)}% mastery</span><span class="muted">cards ${st.mastered}/${st.total} · quiz ${acc == null ? '—' : pct(acc) + '%'}</span></div>
+      <div class="bar ${tone(m)}"><i style="width:${pct(m)}%"></i></div></div>
+      <div class="row"><button class="btn sm" data-act="go" data-v="slides" data-s="${s.id}">Slides</button><button class="btn sm" data-act="go" data-v="cards" data-s="${s.id}">Cards</button><button class="btn sm" data-act="quizStart" data-s="${s.id}">Quiz</button></div></div>`;
+  });
+  h += `</div>`;
+  h += viewPartners();
+  return h;
+}
+function viewPartners() {
+  let h = `<div class="card mt" id="partners"><h2>Study partners</h2><p class="muted small">Progress is saved in this browser, separately for each partner. To move progress to another device, export it there and import it here.</p>
+    <table><thead><tr><th>Partner</th><th>Readiness</th><th class="num">Cards</th><th>Best mock</th><th>Active</th><th></th></tr></thead><tbody>`;
+  DB.order.forEach(id => {
+    const p = profile(id), be = bestExam(p), active = id === DB.active;
+    const nameCell = UI.renaming === id
+      ? `<div class="row"><input type="text" id="renameInp" value="${esc(p.name)}" maxlength="30" style="max-width:160px"><button class="btn sm primary" data-act="renameSave" data-id="${id}">Save</button></div>`
+      : `<b>${esc(p.name)}</b>${active ? ' <span class="pill">active</span>' : ''}`;
+    const del = UI.confirmDel === id
+      ? `<button class="btn sm danger" data-act="delYes" data-id="${id}">Confirm delete</button> <button class="btn sm" data-act="delNo">Cancel</button>`
+      : `${active ? '' : `<button class="btn sm" data-act="switch" data-id="${id}">Switch</button>`} <button class="btn sm" data-act="rename" data-id="${id}">Rename</button> ${DB.order.length > 1 ? `<button class="btn sm" data-act="delAsk" data-id="${id}">Delete</button>` : ''}`;
+    h += `<tr><td>${nameCell}</td><td class="num">${pct(readiness(p))}%</td><td class="num">${cardStats(p).mastered}</td><td class="num">${be < 0 ? '—' : pct(be) + '%'}</td><td class="small muted">${fmtDate(p.lastActive)}</td><td style="text-align:right;white-space:nowrap">${del}</td></tr>`;
+  });
+  h += `</tbody></table>
+    <div class="row mt"><input type="text" id="newName" placeholder="New partner name" maxlength="30" style="max-width:240px"><button class="btn primary" data-act="addProfile">Add partner</button></div>
+    <div class="row mt"><button class="btn sm" data-act="ioExport">Export ${esc(P().name)}'s progress</button><button class="btn sm" data-act="ioImport">Import progress</button></div>`;
+  if (UI.io === 'export') h += `<p class="small muted mt">Copy this text and paste it into "Import progress" on the other device.</p><textarea id="ioText" readonly>${esc(JSON.stringify(P()))}</textarea><div class="row"><button class="btn sm" data-act="ioCopy">Copy</button></div>`;
+  if (UI.io === 'import') h += `<p class="small muted mt">Paste exported progress. A partner with the same ID is replaced; otherwise it is added.</p><textarea id="ioText" placeholder='{"id":"p…","name":"…"}'></textarea><div class="row"><button class="btn sm primary" data-act="ioDo">Import</button></div>`;
+  if (UI.msg) h += `<p class="small mt">${esc(UI.msg)}</p>`;
+  return h + `</div>`;
+}
+
+/* ---------------- slides ---------------- */
+function secChips(cur, act, withAll) {
+  return `<div class="chips">${withAll ? `<button class="chip ${cur === 0 ? 'on' : ''}" data-act="${act}" data-s="0">All sections</button>` : ''}${C.sections.map(s => `<button class="chip ${cur === s.id ? 'on' : ''}" data-act="${act}" data-s="${s.id}">${s.id}. ${esc(s.short)}</button>`).join('')}</div>`;
+}
+function viewSlides() {
+  const list = C.slides.filter(x => x.s === UI.slideSec), i = UI.slideIdx = Math.min(UI.slideIdx, list.length - 1), sl = list[i], p = P();
+  const seen = p.slides[UI.slideSec] || (p.slides[UI.slideSec] = []);
+  if (!seen.includes(i)) { seen.push(i); touch(p); save(); }
+  let h = secChips(UI.slideSec, 'slideSec') + `<div class="card slide mt">
+    <div class="row between small muted"><span>Section ${sl.s} · ${esc(SEC[sl.s].name)}</span><span>${i + 1} / ${list.length}</span></div>
+    <h1 class="mt">${esc(sl.title)}</h1><ul>${sl.bullets.map(b => `<li>${b}</li>`).join('')}</ul>`;
+  if (sl.formula) h += `<div class="formula">${esc(sl.formula)}</div>`;
+  if (sl.trap) h += `<div class="callout trap"><b>Exam trap</b>${esc(sl.trap)}</div>`;
+  if (sl.fact) h += `<div class="callout fact"><b>High-yield test fact</b>${esc(sl.fact)}</div>`;
+  h += `<div style="flex:1"></div><div class="row between mt"><button class="btn" data-act="slidePrev" ${i === 0 && UI.slideSec === 1 ? 'disabled' : ''}>← Previous</button>
+    <div class="dots">${list.map((_, k) => `<button class="dot ${k === i ? 'on' : ''}" data-act="slideGo" data-i="${k}" aria-label="Slide ${k + 1}"></button>`).join('')}</div>
+    <button class="btn primary" data-act="slideNext" ${i === list.length - 1 && UI.slideSec === 4 ? 'disabled' : ''}>Next →</button></div></div>
+    <p class="muted small mt">Tip: use ← → arrow keys. The last slide of a section moves on to the next section.</p>`;
+  return h;
+}
+
+/* ---------------- flashcards (Leitner spaced repetition) ---------------- */
+function buildDeck() {
+  const p = P(), now = Date.now();
+  const cards = C.cards.filter(c => !UI.cardSec || c.s === UI.cardSec);
+  const rank = c => { const st = p.cards[c.id]; if (!st) return 1; if (st.due <= now) return st.m ? 2 : 0; return 3; };
+  UI.deck = shuffle(cards).sort((a, b) => rank(a) - rank(b) || ((p.cards[a.id] || {}).due || 0) - ((p.cards[b.id] || {}).due || 0)).map(c => c.id);
+  UI.cardIdx = 0; UI.flipped = false;
+}
+function viewCards() {
+  if (!UI.deck) buildDeck();
+  const p = P(), st = cardStats(p, UI.cardSec), id = UI.deck[UI.cardIdx], c = C.cards.find(x => x.id === id), cs = p.cards[id];
+  const state = !cs ? '<span class="pill">new</span>' : cs.m ? '<span class="pill" style="color:#7ee787">mastered</span>' : '<span class="pill" style="color:#ffa198">needs review</span>';
+  return secChips(UI.cardSec, 'cardSec', true) + `
+    <div class="row between mt small"><span>Card ${UI.cardIdx + 1} of ${UI.deck.length}</span>
+      <span class="muted">${st.mastered} mastered · ${st.review} needs review · ${st.fresh} new · ${st.due} due now</span></div>
+    <div class="bar good" style="margin-top:6px"><i style="width:${st.mastered / st.total * 100}%"></i></div>
+    <div class="flip ${UI.flipped ? 'on' : ''}" data-act="flip" role="button" tabindex="0" aria-label="Flip card">
+      <div class="inner">
+        <div class="face"><span class="lab">Section ${c.s} · ${esc(SEC[c.s].short)}</span><span class="state">${state}</span><div class="q">${esc(c.f)}</div><div class="muted small mt">Tap to flip</div></div>
+        <div class="face back"><span class="lab">Answer</span><div class="a">${esc(c.b)}</div></div>
+      </div></div>
+    <div class="row" style="justify-content:center">
+      <button class="btn" data-act="cardPrev" ${UI.cardIdx === 0 ? 'disabled' : ''}>←</button>
+      <button class="btn bad" data-act="rate" data-v="review">Needs Review</button>
+      <button class="btn good" data-act="rate" data-v="got">Got It (Mastered)</button>
+      <button class="btn" data-act="cardNext" ${UI.cardIdx >= UI.deck.length - 1 ? 'disabled' : ''}>→</button></div>
+    <div class="row mt" style="justify-content:center"><button class="link small" data-act="reshuffle">Restart deck (due cards first)</button></div>
+    <p class="muted small mt" style="text-align:center">Keys: Space flips · 1 = Needs Review · 2 = Got It · ← → move. "Got It" schedules the card 1 → 3 → 7 → 14 → 30 days out; "Needs Review" brings it back now.</p>`;
+}
+
+/* ---------------- quizzes ---------------- */
+const makeItem = q => ({ id: q.id, order: shuffle([0, 1, 2, 3]) });
+const correctIdx = it => it.order.indexOf(qById[it.id].a);
+function startQuiz(s, players) {
+  UI.quiz = { s, players, items: shuffle(QB.filter(q => q.s === s)).slice(0, QUIZ_LEN).map(makeItem), i: 0, picks: players.map(() => []), revealed: false, done: false };
+  UI.tab = 'quiz';
+}
+function viewQuiz() {
+  const Q = UI.quiz;
+  if (!Q) return quizHome();
+  if (Q.done) return quizResults();
+  const it = Q.items[Q.i], q = qById[it.id], ci = correctIdx(it), vs = Q.players.length > 1;
+  const running = Q.players.map((pid, pi) => `<span class="pill">${esc(profile(pid).name)}: ${Q.items.slice(0, Q.i + (Q.revealed ? 1 : 0)).filter((x, k) => Q.picks[pi][k] === correctIdx(x)).length}</span>`).join(' ');
+  let h = `<div class="card"><div class="row between small"><span class="pill">Section ${Q.s} · ${esc(SEC[Q.s].short)}${vs ? ' · head-to-head' : ''}</span><span>${running}</span><span class="muted">Question ${Q.i + 1} of ${Q.items.length}</span></div>
+    <div class="progress"><i style="width:${(Q.i + (Q.revealed ? 1 : 0)) / Q.items.length * 100}%"></i></div>
+    <div class="stem">${esc(q.q)}</div><ol class="choices">`;
+  it.order.forEach((orig, k) => {
+    const pickers = Q.players.map((_, pi) => Q.picks[pi][Q.i] === k ? pi : -1).filter(x => x >= 0);
+    let cls = 'choice';
+    if (Q.revealed) cls += k === ci ? ' good' : pickers.length ? ' bad' : ' dim';
+    const tags = Q.revealed && vs ? pickers.map(pi => `<span class="tag">${esc(profile(Q.players[pi]).name)}</span>`).join('') : '';
+    const clickable = !vs && !Q.revealed;
+    h += `<li><button class="${cls}" ${clickable ? `data-act="quizPick" data-k="${k}"` : 'tabindex="-1"'}><b class="letter">${L[k]}</b><span>${esc(q.c[orig])}</span>${tags}</button>`;
+    if (Q.revealed) h += `<p class="why ${k === ci ? 'good' : pickers.length ? 'bad' : ''}">${k === ci ? '✓' : '✗'} ${esc(q.e[orig])}</p>`;
+    h += `</li>`;
+  });
+  h += `</ol>`;
+  if (vs && !Q.revealed) h += `<div class="vs">${Q.players.map((pid, pi) => {
+    const picked = Q.picks[pi][Q.i];
+    return `<div class="vsp"><div class="vsname">${esc(profile(pid).name)}</div>${picked == null
+      ? `<div class="lbtns">${[0, 1, 2, 3].map(k => `<button class="lbtn" data-act="vsPick" data-p="${pi}" data-k="${k}">${L[k]}</button>`).join('')}</div>`
+      : `<div class="locked">Locked in ✓ <button class="link small" data-act="vsUnlock" data-p="${pi}">change</button></div>`}</div>`;
+  }).join('')}</div><p class="muted small" style="text-align:center">Each player picks a letter; answers stay hidden until both lock in.</p>`;
+  if (Q.revealed) h += `<div class="row end mt"><button class="btn primary" data-act="quizNext">${Q.i + 1 < Q.items.length ? 'Next question →' : 'See results'}</button></div>`;
+  return h + `<div class="row mt"><button class="link small" data-act="quizQuit">Quit quiz</button></div></div>`;
+}
+function quizHome() {
+  const p = P();
+  let h = `<h1>Practice quizzes</h1><p class="muted">${QUIZ_LEN} questions per section, drawn at random from the bank. Every answer choice is explained after you answer.</p><div class="grid g2">`;
+  C.sections.forEach(s => {
+    const rec = p.quiz[s.id], bank = QB.filter(q => q.s === s.id).length, last = rec && rec.attempts[rec.attempts.length - 1];
+    h += `<div class="card"><div class="small muted">Section ${s.id} · ${s.weight}% of exam</div><h2>${esc(s.name)}</h2>
+      <p class="small muted">${bank} questions in bank · best ${rec ? pct(rec.best) + '%' : '—'} · last ${last ? `${last.correct}/${last.total}` : '—'}</p>
+      <button class="btn primary" data-act="quizStart" data-s="${s.id}">Start solo quiz</button></div>`;
+  });
+  h += `</div><div class="card mt"><h2>Head-to-head mode</h2>`;
+  if (DB.order.length < 2) h += `<p class="muted">Add a second study partner on the Dashboard to play head-to-head.</p>`;
+  else {
+    const other = DB.order.find(id => id !== DB.active);
+    const opts = sel => DB.order.map(id => `<option value="${id}" ${id === sel ? 'selected' : ''}>${esc(profile(id).name)}</option>`).join('');
+    h += `<p class="muted small">Two partners, one screen: same questions, picks hidden until both lock in, then explanations and a running score. Each player's result is saved to their own profile.</p>
+      <div class="grid g4" style="align-items:end"><label class="small">Player 1<select class="inp" id="vs1">${opts(DB.active)}</select></label>
+      <label class="small">Player 2<select class="inp" id="vs2">${opts(other)}</select></label>
+      <label class="small">Section<select class="inp" id="vsS">${C.sections.map(s => `<option value="${s.id}">${s.id}. ${esc(s.short)}</option>`).join('')}</select></label>
+      <button class="btn primary" data-act="vsStart">Start head-to-head</button></div>`;
+    if (UI.msg) h += `<p class="small" style="color:var(--bad)">${esc(UI.msg)}</p>`;
+  }
+  return h + `</div>`;
+}
+function quizResults() {
+  const Q = UI.quiz, n = Q.items.length;
+  const scores = Q.players.map((_, pi) => Q.items.filter((it, k) => Q.picks[pi][k] === correctIdx(it)).length);
+  let h = `<div class="card"><div class="small muted">Section ${Q.s} · ${esc(SEC[Q.s].name)}</div><h1>Quiz complete</h1><div class="score2 mb">`;
+  Q.players.forEach((pid, pi) => { const r = scores[pi] / n; h += `<div class="card" style="flex:1;min-width:180px"><div class="muted small">${esc(profile(pid).name)}</div><div class="verdict ${r >= 0.7 ? 'pass' : 'fail'}">${scores[pi]}/${n}</div><div class="small">${pct(r)}% · ${r >= 0.7 ? 'at or above the 70% pass line' : 'below the 70% pass line'}</div></div>`; });
+  h += `</div>`;
+  if (Q.players.length > 1) h += `<p><b>${scores[0] === scores[1] ? 'Tie game!' : esc(profile(Q.players[scores[0] > scores[1] ? 0 : 1]).name) + ' wins.'}</b></p>`;
+  h += `<div class="row"><button class="btn primary" data-act="quizAgain">Try another set</button><button class="btn" data-act="quizQuit">All quizzes</button></div><h2 class="mt">Review</h2>`;
+  Q.items.forEach((it, k) => {
+    const q = qById[it.id], ci = correctIdx(it);
+    const marks = Q.players.map((pid, pi) => { const pk = Q.picks[pi][k]; return `<span class="tag" style="color:${pk === ci ? '#7ee787' : '#ffa198'}">${Q.players.length > 1 ? esc(profile(pid).name) + ': ' : ''}${pk == null ? '—' : L[pk]} ${pk === ci ? '✓' : '✗'}</span>`; }).join(' ');
+    h += `<div class="rv"><div class="row between"><b>${k + 1}. ${esc(q.q)}</b><span>${marks}</span></div>
+      <div class="small mt"><span style="color:#7ee787">Answer ${L[ci]}: ${esc(q.c[q.a])}</span> — ${esc(q.e[q.a])}</div></div>`;
+  });
+  return h + `</div>`;
+}
+
+/* ---------------- mock exam ---------------- */
+function startExam() {
+  const items = [], used = new Set();
+  C.sections.forEach(s => shuffle(QB.filter(q => q.s === s.id)).slice(0, s.scored).forEach(q => { items.push({ ...makeItem(q), pre: false }); used.add(q.id); }));
+  shuffle(QB.filter(q => !used.has(q.id))).slice(0, EX.pretest).forEach(q => items.push({ ...makeItem(q), pre: true }));
+  const p = P();
+  p.exam = { items: shuffle(items), picks: Array(items.length).fill(null), flags: Array(items.length).fill(false), i: 0, remaining: EX.minutes * 60e3, paused: false, started: Date.now() };
+  touch(p); save(); UI.examView = 'take'; UI.examConfirm = false;
+}
+function submitExam(timeUp) {
+  const p = P(), ex = p.exam; if (!ex) return;
+  const r = { date: Date.now(), timeUp: !!timeUp, usedMs: EX.minutes * 60e3 - ex.remaining, sections: {}, pretest: { correct: 0, total: 0 }, correct: 0, total: 0,
+    items: ex.items.map((it, i) => ({ id: it.id, order: it.order, pre: it.pre, pick: ex.picks[i] })) };
+  C.sections.forEach(s => { r.sections[s.id] = { correct: 0, total: 0 }; });
+  r.items.forEach(it => {
+    const q = qById[it.id], ok = it.pick != null && it.order[it.pick] === q.a;
+    if (it.pre) { r.pretest.total++; if (ok) r.pretest.correct++; }
+    else { r.total++; r.sections[q.s].total++; if (ok) { r.correct++; r.sections[q.s].correct++; } }
+  });
+  r.pct = r.correct / r.total; r.pass = r.correct >= EX.passCount;
+  p.exams.push(r); if (p.exams.length > 20) p.exams.shift();
+  p.exam = null; touch(p); save();
+  UI.examView = 'result'; UI.examResult = p.exams.length - 1; UI.examConfirm = false; UI.reviewAll = false;
+  render();
+}
+function viewExam() {
+  const p = P();
+  if (UI.examView === 'take' && p.exam) return examTake();
+  if (UI.examView === 'result' && p.exams[UI.examResult]) return examResult(p.exams[UI.examResult]);
+  UI.examView = 'home';
+  let h = `<div class="card"><h1>Full mock exam</h1>
+    <p>${EX.total} questions in ${EX.minutes} minutes (1 hr 45 min), weighted like the real SIE: ${C.sections.map(s => `${s.scored} ${esc(s.short)}`).join(' · ')} — plus ${EX.pretest} unscored pretest items mixed in, as on test day. You will not know which ones are unscored.</p>
+    <p class="muted small">Pass = ${EX.passCount} of ${EX.scored} scored items (${EX.passPct}%). No feedback until you submit. You can pause, flag questions and jump around with the navigator. Leaving this tab pauses the clock.</p>
+    <div class="row">${p.exam ? `<button class="btn primary" data-act="examResume">Resume exam (${fmtTime(p.exam.remaining)} left, ${p.exam.picks.filter(x => x != null).length}/${EX.total} answered)</button><button class="btn danger" data-act="examDiscard">Discard it</button>` : `<button class="btn primary" data-act="examStart">Start mock exam</button>`}</div></div>`;
+  if (p.exams.length) {
+    h += `<div class="card mt"><h2>History · ${esc(p.name)}</h2><table><thead><tr><th>Date</th><th>Score</th><th>Result</th><th>Time used</th><th></th></tr></thead><tbody>`;
+    p.exams.map((e, i) => [e, i]).reverse().forEach(([e, i]) => { h += `<tr><td>${fmtDate(e.date)}</td><td class="num">${e.correct}/${e.total} (${pct(e.pct)}%)</td><td style="color:${e.pass ? '#56d364' : 'var(--bad)'}">${e.pass ? 'PASS' : 'FAIL'}</td><td class="num">${fmtTime(e.usedMs)}</td><td><button class="btn sm" data-act="examView" data-i="${i}">Review</button></td></tr>`; });
+    h += `</tbody></table></div>`;
+  }
+  return h;
+}
+function examTake() {
+  const ex = P().exam, it = ex.items[ex.i], q = qById[it.id], answered = ex.picks.filter(x => x != null).length;
+  let h = `<div class="exambar"><span id="timer" class="timer">${fmtTime(ex.remaining)}</span>
+    <button class="btn sm" data-act="examPause">${ex.paused ? '▶ Resume' : '❚❚ Pause'}</button>
+    <span class="small muted">Q ${ex.i + 1}/${ex.items.length} · ${answered} answered</span><span style="flex:1"></span>
+    <button class="btn sm" data-act="examNav">${UI.examNav ? 'Hide' : 'Show'} navigator</button>
+    <button class="btn sm danger" data-act="examSubmitAsk">Submit</button></div>`;
+  if (UI.examConfirm) {
+    const blank = ex.items.length - answered, flagged = ex.flags.filter(Boolean).length;
+    h += `<div class="card mb note"><b>Submit the exam?</b> ${blank ? `${blank} unanswered (counted wrong). ` : 'All questions answered. '}${flagged ? `${flagged} flagged for review.` : ''}
+      <div class="row mt"><button class="btn primary" data-act="examSubmit">Submit and score</button><button class="btn" data-act="examSubmitNo">Keep working</button></div></div>`;
+  }
+  if (ex.paused) return h + `<div class="card paused"><h2>Exam paused</h2><p class="muted">The clock is stopped and questions are hidden.</p><button class="btn primary" data-act="examPause">▶ Resume</button></div>`;
+  h += `<div class="card"><div class="row between"><span class="small muted">Question ${ex.i + 1}</span>
+    <button class="btn sm" data-act="examFlag" style="${ex.flags[ex.i] ? 'border-color:var(--warn);color:var(--warn)' : ''}">⚑ ${ex.flags[ex.i] ? 'Flagged' : 'Flag for review'}</button></div>
+    <div class="stem">${esc(q.q)}</div><ol class="choices">${it.order.map((orig, k) => `<li><button class="choice ${ex.picks[ex.i] === k ? 'sel' : ''}" data-act="examPick" data-k="${k}"><b class="letter">${L[k]}</b><span>${esc(q.c[orig])}</span></button></li>`).join('')}</ol>
+    <div class="row between mt"><button class="btn" data-act="examGo" data-i="${ex.i - 1}" ${ex.i === 0 ? 'disabled' : ''}>← Previous</button>
+    ${ex.i + 1 < ex.items.length ? `<button class="btn primary" data-act="examGo" data-i="${ex.i + 1}">Next →</button>` : `<button class="btn primary" data-act="examSubmitAsk">Finish &amp; submit</button>`}</div></div>`;
+  if (UI.examNav) h += `<div class="card mt"><div class="legend mb"><span><i style="background:rgba(79,140,255,.4)"></i>answered</span><span><i style="background:var(--warn)"></i>flagged</span><span><i style="background:var(--panel2);border:1px solid var(--line)"></i>blank</span></div>
+    <div class="navgrid">${ex.items.map((_, k) => `<button class="nb ${ex.picks[k] != null ? 'ans' : ''} ${ex.flags[k] ? 'flag' : ''} ${k === ex.i ? 'cur' : ''}" data-act="examGo" data-i="${k}">${k + 1}</button>`).join('')}</div></div>`;
+  return h + `<p class="muted small mt">Keys: A–D or 1–4 to answer · ← → to move · F to flag.</p>`;
+}
+function examResult(r) {
+  const weak = C.sections.filter(s => r.sections[s.id].correct / r.sections[s.id].total < 0.7)
+    .sort((a, b) => r.sections[a.id].correct / r.sections[a.id].total - r.sections[b.id].correct / r.sections[b.id].total);
+  let h = `<div class="card"><div class="row between"><div><div class="muted small">${fmtDate(r.date)} · ${fmtTime(r.usedMs)} used${r.timeUp ? ' · time ran out' : ''}</div>
+    <div class="verdict ${r.pass ? 'pass' : 'fail'}">${r.pass ? 'PASS' : 'NOT YET'} · ${pct(r.pct)}%</div>
+    <div>${r.correct} of ${r.total} scored correct (need ${EX.passCount}). Pretest items: ${r.pretest.correct}/${r.pretest.total} (not scored).</div></div>
+    <div class="row"><button class="btn" data-act="examHome">Back</button><button class="btn primary" data-act="examStart">New exam</button></div></div>
+    <h2 class="mt">By section</h2>`;
+  C.sections.forEach(s => { const x = r.sections[s.id], f = x.correct / x.total; h += `<div class="mt"><div class="row between small"><span><b>${s.id}. ${esc(s.name)}</b> <span class="muted">(${s.weight}%)</span></span><span class="num">${x.correct}/${x.total} · ${pct(f)}%</span></div><div class="bar ${tone(f)}"><i style="width:${pct(f)}%"></i></div></div>`; });
+  h += `<h2 class="mt">What to study next</h2>`;
+  if (!weak.length) h += `<p>Every section is at 70% or better. Keep your edge: retake a mock in a few days and clear any flashcards marked "Needs Review".</p>`;
+  else h += `<ul>${weak.map(s => { const x = r.sections[s.id]; return `<li><b>${esc(s.name)}</b> — ${pct(x.correct / x.total)}%, worth ${s.weight}% of the exam. Re-read its ${C.slides.filter(sl => sl.s === s.id).length} slides, drill its flashcards, then retake the section quiz.
+      <div class="row" style="margin:6px 0 10px"><button class="btn sm" data-act="go" data-v="slides" data-s="${s.id}">Slides</button><button class="btn sm" data-act="go" data-v="cards" data-s="${s.id}">Flashcards</button><button class="btn sm" data-act="quizStart" data-s="${s.id}">Quiz</button></div></li>`; }).join('')}</ul>`;
+  const list = r.items.filter(it => UI.reviewAll || it.pick == null || it.order[it.pick] !== qById[it.id].a);
+  h += `<div class="row between mt"><h2 style="margin:0">Question review</h2><div class="chips"><button class="chip ${UI.reviewAll ? '' : 'on'}" data-act="reviewAll" data-v="0">Missed (${r.items.filter(it => it.pick == null || it.order[it.pick] !== qById[it.id].a).length})</button><button class="chip ${UI.reviewAll ? 'on' : ''}" data-act="reviewAll" data-v="1">All ${r.items.length}</button></div></div>`;
+  list.forEach(it => {
+    const q = qById[it.id], ci = it.order.indexOf(q.a), n = r.items.indexOf(it) + 1;
+    h += `<div class="rv"><div class="small muted">Q${n} · Section ${q.s}${it.pre ? ' · <span style="color:var(--warn)">unscored pretest</span>' : ''}</div><div class="stem" style="margin:6px 0">${esc(q.q)}</div><ol class="choices">`;
+    it.order.forEach((orig, k) => {
+      const cls = k === ci ? 'good' : k === it.pick ? 'bad' : 'dim';
+      h += `<li><div class="choice ${cls}" style="cursor:default"><b class="letter">${L[k]}</b><span>${esc(q.c[orig])}${k === it.pick ? ' <span class="tag">your answer</span>' : ''}</span></div>`;
+      if (k === ci || k === it.pick) h += `<p class="why ${k === ci ? 'good' : 'bad'}">${k === ci ? '✓' : '✗'} ${esc(q.e[orig])}</p>`;
+      h += `</li>`;
+    });
+    h += `</ol>${it.pick == null ? '<p class="small" style="color:var(--bad)">Left blank.</p>' : ''}</div>`;
+  });
+  return h + `</div>`;
+}
+let saveTick = 0, lastTick = Date.now();
+function updateTimer() { const el = document.getElementById('timer'), ex = P().exam; if (el && ex) { el.textContent = fmtTime(ex.remaining); el.classList.toggle('low', ex.remaining < 10 * 60e3); } }
+setInterval(() => {
+  const now = Date.now(), dt = now - lastTick; lastTick = now;
+  const ex = P().exam;
+  if (!ex || ex.paused || UI.tab !== 'exam' || UI.examView !== 'take') return;
+  ex.remaining -= dt;
+  if (ex.remaining <= 0) { ex.remaining = 0; submitExam(true); return; }
+  updateTimer();
+  if (++saveTick % 5 === 0) save();
+}, 1000);
+function pauseRunningExam() { const ex = P().exam; if (ex && !ex.paused && UI.examView === 'take') { ex.paused = true; save(); } }
+
+/* ---------------- actions ---------------- */
+const A = {
+  tab: d => { if (UI.tab === 'exam' && d.v !== 'exam') pauseRunningExam(); UI.tab = d.v; UI.msg = ''; if (d.v === 'exam' && P().exam) UI.examView = 'take'; },
+  go: d => { A.tab(d); const s = +d.s; if (d.v === 'slides') { UI.slideSec = s; UI.slideIdx = 0; } if (d.v === 'cards') { UI.cardSec = s; buildDeck(); } },
+  switch: d => { pauseRunningExam(); DB.active = d.id; UI.deck = null; UI.quiz = null; UI.examView = 'home'; UI.renaming = null; save(); },
+  rename: d => { UI.renaming = d.id; },
+  renameSave: d => { const v = document.getElementById('renameInp').value.trim(); if (v) profile(d.id).name = v.slice(0, 30); UI.renaming = null; save(); },
+  delAsk: d => { UI.confirmDel = d.id; },
+  delNo: () => { UI.confirmDel = null; },
+  delYes: d => { delete DB.profiles[d.id]; DB.order = DB.order.filter(x => x !== d.id); if (DB.active === d.id) { DB.active = DB.order[0]; UI.deck = null; UI.quiz = null; } UI.confirmDel = null; save(); },
+  addProfile: () => { const el = document.getElementById('newName'), v = el.value.trim(); if (!v) { UI.msg = 'Type a name first.'; return; } const id = addProfile(v.slice(0, 30)); pauseRunningExam(); DB.active = id; UI.deck = null; UI.quiz = null; UI.msg = `Added ${v} and switched to them.`; save(); },
+  ioExport: () => { UI.io = UI.io === 'export' ? null : 'export'; UI.msg = ''; },
+  ioImport: () => { UI.io = UI.io === 'import' ? null : 'import'; UI.msg = ''; },
+  ioCopy: () => { const t = document.getElementById('ioText'); t.select(); try { navigator.clipboard.writeText(t.value).then(() => { UI.msg = 'Copied.'; render(); }, () => { document.execCommand('copy'); }); } catch (e) { document.execCommand('copy'); } return false; },
+  ioDo: () => {
+    try {
+      const p = JSON.parse(document.getElementById('ioText').value);
+      if (!p || typeof p.id !== 'string' || typeof p.name !== 'string' || typeof p.cards !== 'object') throw new Error('bad');
+      const merged = Object.assign(blankProfile(p.name), p, { exam: null });
+      if (!DB.profiles[p.id]) DB.order.push(p.id);
+      DB.profiles[p.id] = merged; DB.active = p.id; UI.deck = null; UI.io = null; UI.msg = `Imported ${p.name}.`; save();
+    } catch (e) { UI.msg = 'That text is not valid exported progress.'; }
+  },
+  slideSec: d => { UI.slideSec = +d.s; UI.slideIdx = 0; },
+  slideGo: d => { UI.slideIdx = +d.i; },
+  slideNext: () => { const n = C.slides.filter(x => x.s === UI.slideSec).length; if (UI.slideIdx < n - 1) UI.slideIdx++; else if (UI.slideSec < 4) { UI.slideSec++; UI.slideIdx = 0; } },
+  slidePrev: () => { if (UI.slideIdx > 0) UI.slideIdx--; else if (UI.slideSec > 1) { UI.slideSec--; UI.slideIdx = C.slides.filter(x => x.s === UI.slideSec).length - 1; } },
+  cardSec: d => { UI.cardSec = +d.s; buildDeck(); },
+  flip: () => { UI.flipped = !UI.flipped; const el = view.querySelector('.flip'); if (el) { el.classList.toggle('on', UI.flipped); return false; } },
+  cardNext: () => { if (UI.cardIdx < UI.deck.length - 1) { UI.cardIdx++; UI.flipped = false; } },
+  cardPrev: () => { if (UI.cardIdx > 0) { UI.cardIdx--; UI.flipped = false; } },
+  reshuffle: () => buildDeck(),
+  rate: d => {
+    const p = P(), id = UI.deck[UI.cardIdx], st = p.cards[id] || { box: 0 };
+    if (d.v === 'got') { st.box = Math.min((st.box || 0) + 1, BOX_DAYS.length - 1); st.m = true; }
+    else { st.box = 0; st.m = false; }
+    st.due = Date.now() + BOX_DAYS[st.box] * DAY; st.seen = (st.seen || 0) + 1;
+    p.cards[id] = st; touch(p); save();
+    if (UI.cardIdx < UI.deck.length - 1) UI.cardIdx++; else buildDeck();
+    UI.flipped = false;
+  },
+  quizStart: d => { startQuiz(+d.s, [DB.active]); },
+  vsStart: () => {
+    const a = document.getElementById('vs1').value, b = document.getElementById('vs2').value, s = +document.getElementById('vsS').value;
+    if (a === b) { UI.msg = 'Pick two different partners.'; return; }
+    UI.msg = ''; startQuiz(s, [a, b]);
+  },
+  quizPick: d => { const Q = UI.quiz; Q.picks[0][Q.i] = +d.k; Q.revealed = true; },
+  vsPick: d => { const Q = UI.quiz; Q.picks[+d.p][Q.i] = +d.k; if (Q.players.every((_, pi) => Q.picks[pi][Q.i] != null)) Q.revealed = true; },
+  vsUnlock: d => { const Q = UI.quiz; Q.picks[+d.p][Q.i] = null; },
+  quizNext: () => {
+    const Q = UI.quiz;
+    if (Q.i + 1 < Q.items.length) { Q.i++; Q.revealed = false; window.scrollTo(0, 0); return; }
+    Q.done = true;
+    Q.players.forEach((pid, pi) => {
+      const correct = Q.items.filter((it, k) => Q.picks[pi][k] === correctIdx(it)).length, p = profile(pid);
+      const rec = p.quiz[Q.s] || (p.quiz[Q.s] = { best: 0, attempts: [] });
+      rec.attempts.push({ correct, total: Q.items.length, date: Date.now(), mode: Q.players.length > 1 ? 'vs' : 'solo' });
+      if (rec.attempts.length > 30) rec.attempts.shift();
+      rec.best = Math.max(rec.best, correct / Q.items.length); touch(p);
+    });
+    save(); window.scrollTo(0, 0);
+  },
+  quizAgain: () => { const Q = UI.quiz; startQuiz(Q.s, Q.players); },
+  quizQuit: () => { UI.quiz = null; UI.msg = ''; },
+  examStart: () => startExam(),
+  examResume: () => { UI.examView = 'take'; P().exam.paused = false; save(); },
+  examDiscard: () => { P().exam = null; save(); },
+  examPause: () => { const ex = P().exam; ex.paused = !ex.paused; save(); },
+  examNav: () => { UI.examNav = !UI.examNav; },
+  examFlag: () => { const ex = P().exam; ex.flags[ex.i] = !ex.flags[ex.i]; save(); },
+  examPick: d => { const ex = P().exam; ex.picks[ex.i] = +d.k; save(); },
+  examGo: d => { const ex = P().exam, i = +d.i; if (i >= 0 && i < ex.items.length) ex.i = i; },
+  examSubmitAsk: () => { UI.examConfirm = true; window.scrollTo(0, 0); },
+  examSubmitNo: () => { UI.examConfirm = false; },
+  examSubmit: () => { submitExam(false); return false; },
+  examView: d => { UI.examView = 'result'; UI.examResult = +d.i; UI.reviewAll = false; },
+  examHome: () => { UI.examView = 'home'; },
+  reviewAll: d => { UI.reviewAll = d.v === '1'; }
+};
+document.addEventListener('click', e => {
+  const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
+  const fn = A[el.dataset.act]; if (!fn) return;
+  if (fn(el.dataset) !== false) render();
+});
+document.getElementById('profileSel').addEventListener('change', e => {
+  if (e.target.value === '__manage') { A.tab({ v: 'dash' }); render(); document.getElementById('partners').scrollIntoView({ behavior: 'smooth' }); return; }
+  A.switch({ id: e.target.value }); render();
+});
+document.addEventListener('keydown', e => {
+  const t = e.target instanceof Element ? e.target : document.body;
+  if (t.closest('input,textarea,select') || e.metaKey || e.ctrlKey || e.altKey) return;
+  const k = e.key, onButton = t.closest('button');
+  const run = (name, d) => { if (A[name](d || {}) !== false) render(); e.preventDefault(); };
+  if (UI.tab === 'slides') { if (k === 'ArrowRight') run('slideNext'); else if (k === 'ArrowLeft') run('slidePrev'); }
+  else if (UI.tab === 'cards') {
+    if ((k === ' ' || k === 'Enter') && !onButton) run('flip');
+    else if ((k === ' ' || k === 'Enter') && t.classList.contains('flip')) run('flip');
+    else if (k === 'ArrowRight') run('cardNext'); else if (k === 'ArrowLeft') run('cardPrev');
+    else if (k === '1') run('rate', { v: 'review' }); else if (k === '2') run('rate', { v: 'got' });
+  } else if (UI.tab === 'exam' && UI.examView === 'take' && P().exam && !P().exam.paused) {
+    const ex = P().exam, idx = 'abcd'.indexOf(k.toLowerCase()), num = '1234'.indexOf(k);
+    if (k === 'ArrowRight') run('examGo', { i: ex.i + 1 }); else if (k === 'ArrowLeft') run('examGo', { i: ex.i - 1 });
+    else if (k.toLowerCase() === 'f') run('examFlag');
+    else if (idx >= 0 || num >= 0) run('examPick', { k: Math.max(idx, num) });
+  } else if (UI.tab === 'quiz' && UI.quiz && !UI.quiz.done && UI.quiz.players.length === 1) {
+    const idx = 'abcd'.indexOf(k.toLowerCase()), num = '1234'.indexOf(k);
+    if (!UI.quiz.revealed && (idx >= 0 || num >= 0)) run('quizPick', { k: Math.max(idx, num) });
+    else if (UI.quiz.revealed && k === 'Enter' && !onButton) run('quizNext');
+  }
+});
+render();
+window.__SIE_TEST__ = { DB: () => DB, UI, A, render, readiness, sectionMastery, startExam, submitExam, qById };
+})();
+</script>
+</body>
+</html>
