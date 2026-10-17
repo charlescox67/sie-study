@@ -100,6 +100,10 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .rv{border-top:1px solid var(--line);padding:14px 0}
+.sources{margin:10px 0 4px;font-size:.85rem;border-top:1px solid var(--line);padding-top:8px}
+.sources summary{cursor:pointer;color:var(--muted);font-weight:600}
+.sources ul{margin:6px 0 0;padding-left:18px}.sources li{margin:3px 0}
+.sources a{color:#79b0ff}.sources a:hover{text-decoration:underline}.sources .muted{font-size:.78rem}
 .note{background:var(--warn-bg);border:1px solid rgba(210,153,34,.4);border-radius:10px;padding:10px 14px;font-size:.9rem}
 @media (max-width:760px){
   .g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}
@@ -127,7 +131,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;
 'use strict';
 const C = window.SIE, QB = window.SIE_Q, EX = C.exam;
 const SEC = Object.fromEntries(C.sections.map(s => [s.id, s]));
-const DAY = 864e5, BOX_DAYS = [0, 1, 3, 7, 14, 30], QUIZ_LEN = 15, L = 'ABCD';
+const DAY = 864e5, BOX_DAYS = [0, 1, 3, 7, 14, 30], QUIZ_LENS = [10, 15, 25, 0], L = 'ABCD';
 const TABS = [['dash', 'Dashboard'], ['slides', 'Slides'], ['cards', 'Flashcards'], ['quiz', 'Quizzes'], ['exam', 'Mock Exam']];
 
 const esc = s => String(s).replace(/[&<>"']/g, ch => ({ '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;' }[ch]));
@@ -181,7 +185,7 @@ const bestExam = p => p.exams.reduce((a, e) => Math.max(a, e.pct), -1);
 
 /* ---------------- UI state ---------------- */
 const UI = { tab: 'dash', slideSec: 1, slideIdx: 0, cardSec: 0, deck: null, cardIdx: 0, flipped: false,
-  quiz: null, vsSec: 1, examView: 'home', examResult: null, examNav: false, examConfirm: false, reviewAll: false,
+  quiz: null, quizLen: 15, vsSec: 1, examView: 'home', examResult: null, examNav: false, examConfirm: false, reviewAll: false,
   confirmDel: null, renaming: null, io: null, ioText: '', msg: '' };
 const view = document.getElementById('view');
 
@@ -261,6 +265,7 @@ function viewSlides() {
   if (sl.formula) h += `<div class="formula">${esc(sl.formula)}</div>`;
   if (sl.trap) h += `<div class="callout trap"><b>Exam trap</b>${esc(sl.trap)}</div>`;
   if (sl.fact) h += `<div class="callout fact"><b>High-yield test fact</b>${esc(sl.fact)}</div>`;
+  if (sl.src && sl.src.length) h += `<details class="sources" open><summary>Sources (${sl.src.length})</summary><ul>${sl.src.map(([label, url]) => `<li><a href="${esc(url)}" target="_blank" rel="noopener noreferrer">${esc(label)}</a> <span class="muted">${esc(new URL(url).hostname.replace(/^www\./, ''))}</span></li>`).join('')}</ul></details>`;
   h += `<div style="flex:1"></div><div class="row between mt"><button class="btn" data-act="slidePrev" ${i === 0 && UI.slideSec === 1 ? 'disabled' : ''}>← Previous</button>
     <div class="dots">${list.map((_, k) => `<button class="dot ${k === i ? 'on' : ''}" data-act="slideGo" data-i="${k}" aria-label="Slide ${k + 1}"></button>`).join('')}</div>
     <button class="btn primary" data-act="slideNext" ${i === list.length - 1 && UI.slideSec === 4 ? 'disabled' : ''}>Next →</button></div></div>
@@ -302,7 +307,8 @@ function viewCards() {
 const makeItem = q => ({ id: q.id, order: shuffle([0, 1, 2, 3]) });
 const correctIdx = it => it.order.indexOf(qById[it.id].a);
 function startQuiz(s, players) {
-  UI.quiz = { s, players, items: shuffle(QB.filter(q => q.s === s)).slice(0, QUIZ_LEN).map(makeItem), i: 0, picks: players.map(() => []), revealed: false, done: false };
+  const pool = shuffle(QB.filter(q => q.s === s));
+  UI.quiz = { s, players, items: pool.slice(0, UI.quizLen || pool.length).map(makeItem), i: 0, picks: players.map(() => []), revealed: false, done: false };
   UI.tab = 'quiz';
 }
 function viewQuiz() {
@@ -336,7 +342,8 @@ function viewQuiz() {
 }
 function quizHome() {
   const p = P();
-  let h = `<h1>Practice quizzes</h1><p class="muted">${QUIZ_LEN} questions per section, drawn at random from the bank. Every answer choice is explained after you answer.</p><div class="grid g2">`;
+  let h = `<h1>Practice quizzes</h1><p class="muted">Questions are drawn at random from each section's bank (${QB.length} in all). Every answer choice is explained after you answer.</p>
+    <div class="row mb"><span class="small muted">Questions per quiz:</span><div class="chips">${QUIZ_LENS.map(n => `<button class="chip ${UI.quizLen === n ? 'on' : ''}" data-act="quizLen" data-v="${n}">${n || 'All'}</button>`).join('')}</div></div><div class="grid g2">`;
   C.sections.forEach(s => {
     const rec = p.quiz[s.id], bank = QB.filter(q => q.s === s.id).length, last = rec && rec.attempts[rec.attempts.length - 1];
     h += `<div class="card"><div class="small muted">Section ${s.id} · ${s.weight}% of exam</div><h2>${esc(s.name)}</h2>
@@ -543,6 +550,7 @@ const A = {
   },
   quizAgain: () => { const Q = UI.quiz; startQuiz(Q.s, Q.players); },
   quizQuit: () => { UI.quiz = null; UI.msg = ''; },
+  quizLen: d => { UI.quizLen = +d.v; },
   examStart: () => startExam(),
   examResume: () => { UI.examView = 'take'; P().exam.paused = false; save(); },
   examDiscard: () => { P().exam = null; save(); },

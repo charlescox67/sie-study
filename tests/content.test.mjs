@@ -43,6 +43,10 @@ for (const s of C.sections) {
 }
 ok(C.slides.every(x => x.title && x.bullets.length && x.trap && x.fact), 'every slide has an exam trap and a high-yield fact');
 ok(new Set(C.cards.map(c => c.f)).size === C.cards.length, 'flashcard fronts unique (they are the progress key)');
+for (const sl of C.slides) {
+  ok(Array.isArray(sl.src) && sl.src.length >= 1, `slide "${sl.title}" lists sources`);
+  for (const [label, url] of sl.src) ok(label && /^https:\/\/[^\s"'<>]+$/.test(url), `slide "${sl.title}" source ${url} is an https link`);
+}
 
 // facts that must stay right
 const all = JSON.stringify([C, Q]);

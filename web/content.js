@@ -15,6 +15,7 @@ window.SIE = {
   slides: [
     /* ---------- Section 1 ---------- */
     { s: 1, title: 'Who regulates what',
+      src: [["SEC — Mission", "https://www.sec.gov/about/mission"], ["About FINRA", "https://www.finra.org/about"], ["MSRB", "https://www.msrb.org/"], ["SIPC — What SIPC protects", "https://www.sipc.org/for-investors/what-sipc-protects"], ["FDIC — Understanding deposit insurance", "https://www.fdic.gov/resources/deposit-insurance/understanding-deposit-insurance"]],
       bullets: [
         '<b>SEC</b> — federal regulator created by the Securities Exchange Act of 1934; oversees exchanges, broker-dealers and the SROs.',
         '<b>FINRA</b> — self-regulatory organization (SRO) for broker-dealers: writes rules, examines firms, enforces, runs exams.',
@@ -26,6 +27,7 @@ window.SIE = {
       trap: 'SIPC does not protect against market losses or bad advice — only against a failed firm\'s missing customer assets.',
       fact: 'MSRB = rulemaker only. If a question asks who enforces MSRB rules for broker-dealers, the answer is FINRA (and the SEC).' },
     { s: 1, title: 'The Securities Act of 1933 — the "paper act"',
+      src: [["Investor.gov — Laws that govern the securities industry", "https://www.investor.gov/introduction-investing/investing-basics/role-sec/laws-govern-securities-industry"], ["17 CFR 230.430 — Preliminary prospectus", "https://www.ecfr.gov/current/title-17/section-230.430"], ["17 CFR 230.134 — Communications not deemed a prospectus", "https://www.ecfr.gov/current/title-17/section-230.134"]],
       bullets: [
         'Governs the <b>primary market</b>: new issues must be registered with the SEC and sold with a prospectus.',
         'Registration statement filed → <b>cooling-off period</b> of at least 20 days.',
@@ -36,6 +38,7 @@ window.SIE = {
       trap: 'SEC "effectiveness" is not approval. A prospectus must say the SEC has not approved or disapproved the securities.',
       fact: 'The 1934 Act governs the secondary market (trading), created the SEC, and regulates broker-dealers, margin and insider trading.' },
     { s: 1, title: 'Exempt offerings: Reg D, Reg A+, Rule 147, Rule 144',
+      src: [["SEC — Exempt offerings", "https://www.sec.gov/resources-small-businesses/exempt-offerings"], ["17 CFR 230.506 — Reg D 506(b)/(c)", "https://www.ecfr.gov/current/title-17/section-230.506"], ["17 CFR 230.501 — Accredited investor definition", "https://www.ecfr.gov/current/title-17/section-230.501"], ["Investor.gov — Accredited investors bulletin", "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/updated-3"], ["17 CFR 230.251 — Regulation A", "https://www.ecfr.gov/current/title-17/section-230.251"], ["17 CFR 230.147 — Intrastate offerings", "https://www.ecfr.gov/current/title-17/section-230.147"], ["SEC — Rule 144: selling restricted and control securities", "https://www.sec.gov/reportspubs/investor-publications/investorpubsrule144htm.html"]],
       bullets: [
         '<b>Reg D 506(b)</b>: private placement; unlimited accredited investors + up to 35 non-accredited; no general solicitation. Form D within 15 days after first sale.',
         '<b>506(c)</b>: general solicitation allowed, but every purchaser must be accredited and verified.',
@@ -48,6 +51,7 @@ window.SIE = {
       trap: 'Control stock has no holding period — only restricted stock does. Both are subject to volume limits for affiliates.',
       fact: 'Rule 144A lets restricted securities trade among Qualified Institutional Buyers (QIBs, generally $100M+ in securities).' },
     { s: 1, title: 'Underwriting & market structure',
+      src: [["FINRA Rule 2121 — Fair prices and commissions", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2121"], ["17 CFR 242.104 — Stabilization (Reg M)", "https://www.ecfr.gov/current/title-17/section-242.104"], ["Investor.gov — Laws that govern the securities industry", "https://www.investor.gov/introduction-investing/investing-basics/role-sec/laws-govern-securities-industry"]],
       bullets: [
         '<b>Primary market</b>: issuer receives the proceeds (IPOs, follow-ons). <b>Secondary market</b>: investors trade with each other.',
         '<b>Firm commitment</b>: underwriter buys the whole issue and bears the risk. <b>Best efforts</b>: agent only; unsold shares go back. <b>All-or-none</b>: cancelled unless fully sold.',
@@ -58,6 +62,7 @@ window.SIE = {
       trap: 'Stabilization bids must be at or below the public offering price — never above.',
       fact: 'FINRA\'s 5% markup policy is a guideline, not a hard rule; fairness depends on all the facts.' },
     { s: 1, title: 'Economic indicators & the business cycle',
+      src: [["Conference Board — U.S. leading indicators", "https://www.conference-board.org/topics/us-leading-indicators/"], ["BEA — Gross domestic product", "https://www.bea.gov/data/gdp/gross-domestic-product"], ["BLS — Consumer Price Index", "https://www.bls.gov/cpi/"], ["NBER — Business cycle dating", "https://www.nber.org/research/business-cycle-dating"]],
       bullets: [
         'Cycle: <b>expansion → peak → contraction → trough</b>. Recession is commonly described as 2 consecutive quarters of declining real GDP.',
         '<b>Leading</b>: stock prices, building permits, new orders, average weekly hours, money supply (M2).',
@@ -69,6 +74,7 @@ window.SIE = {
       trap: 'GDP is coincident, not leading. Stock market prices are a leading indicator.',
       fact: 'A weaker U.S. dollar helps U.S. exporters; a stronger dollar helps U.S. importers and tourists going abroad.' },
     { s: 1, title: 'Monetary vs fiscal policy',
+      src: [["Federal Reserve — Monetary policy", "https://www.federalreserve.gov/monetarypolicy.htm"], ["Federal Reserve — Open market operations", "https://www.federalreserve.gov/monetarypolicy/openmarket.htm"], ["Federal Reserve — Discount window", "https://www.federalreserve.gov/monetarypolicy/discountrate.htm"], ["Federal Reserve — Reserve requirements", "https://www.federalreserve.gov/monetarypolicy/reservereq.htm"]],
       bullets: [
         '<b>Monetary policy</b> = Federal Reserve (FOMC). Dual mandate: maximum employment and stable prices.',
         'Tools: <b>open market operations</b> (most used), the discount rate, interest on reserve balances, reserve requirements (0% since 2020).',
@@ -82,6 +88,7 @@ window.SIE = {
 
     /* ---------- Section 2 ---------- */
     { s: 2, title: 'Equities: common, preferred, ADRs',
+      src: [["Investor.gov — Stocks", "https://www.investor.gov/introduction-investing/investing-basics/investment-products/stocks"], ["Investor.gov — American Depositary Receipts", "https://www.investor.gov/introduction-investing/investing-basics/glossary/american-depositary-receipts-adrs"]],
       bullets: [
         '<b>Common stock</b>: ownership, voting rights (statutory or cumulative), residual claim — last in liquidation.',
         '<b>Cumulative voting</b> helps minority shareholders: votes = shares × seats, can be spread or concentrated.',
@@ -92,6 +99,7 @@ window.SIE = {
       trap: 'Cumulative preferred: missed dividends (arrears) must be paid before any common dividend.',
       fact: 'Liquidation order: secured creditors → unsecured (debentures) → subordinated debt → preferred → common.' },
     { s: 2, title: 'Rights, warrants & the DERP dividend timeline',
+      src: [["Investor.gov — Ex-dividend dates", "https://www.investor.gov/introduction-investing/investing-basics/glossary/ex-dividend-dates-when-are-you-entitled-stock-and"], ["FINRA Rule 11140 — Ex-dividend transactions", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/11140"], ["Investor.gov — T+1 settlement bulletin", "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/new-t1-settlement-cycle-what-investors-need-know-investor-bulletin"]],
       bullets: [
         '<b>Rights</b>: short-term (weeks), subscription price <u>below</u> market, protect against dilution (preemptive rights).',
         '<b>Warrants</b>: long-term (years), exercise price <u>above</u> market when issued, often attached to bonds as a "sweetener".',
@@ -103,6 +111,7 @@ window.SIE = {
       trap: 'The ex-date is set by FINRA (or the exchange), not the board. The board sets declaration, record and payment dates.',
       fact: 'Cash dividends are taxed in the year received; qualified dividends get long-term capital gains rates.' },
     { s: 2, title: 'Debt: the bond seesaw',
+      src: [["Investor.gov — Bonds", "https://www.investor.gov/introduction-investing/investing-basics/investment-products/bonds-or-fixed-income-products/bonds"], ["FINRA — Bonds", "https://www.finra.org/investors/investing/investment-products/bonds"]],
       bullets: [
         'Par = $1,000. Price quoted as a % of par (e.g., 98 = $980).',
         '<b>Nominal yield</b> (coupon) is fixed. <b>Current yield</b> = annual interest ÷ market price.',
@@ -115,6 +124,7 @@ window.SIE = {
       trap: 'Premium bond: the coupon is the HIGHEST yield and YTC the LOWEST. Discount bond: exactly reversed.',
       fact: 'Bonds tend to be called when rates fall — that is call risk (and it caps price gains).' },
     { s: 2, title: 'Governments, munis & money markets',
+      src: [["TreasuryDirect — Treasury bills", "https://www.treasurydirect.gov/marketable-securities/treasury-bills/"], ["TreasuryDirect — Treasury notes", "https://www.treasurydirect.gov/marketable-securities/treasury-notes/"], ["TreasuryDirect — TIPS", "https://www.treasurydirect.gov/marketable-securities/tips/"], ["Investor.gov — Municipal bonds overview", "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-37"], ["Ginnie Mae", "https://www.ginniemae.gov/"]],
       bullets: [
         '<b>T-bills</b>: ≤ 52 weeks, sold at a discount. <b>T-notes</b>: 2–10 years. <b>T-bonds</b>: 20–30 years. <b>TIPS</b>: principal adjusts with CPI. <b>STRIPS</b>: zero-coupon.',
         'Treasury interest: federally taxable, <b>exempt from state & local</b> tax.',
@@ -127,6 +137,7 @@ window.SIE = {
       trap: 'Ginnie Mae is backed by the full faith and credit of the U.S.; Fannie Mae and Freddie Mac are not.',
       fact: 'Munis suit investors in high tax brackets; they make little sense inside an IRA (already tax-deferred).' },
     { s: 2, title: 'Options: calls & puts',
+      src: [["Investor.gov — An introduction to options", "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins-63"], ["OCC — Options Disclosure Document", "https://www.theocc.com/company-information/documents-and-archives/options-disclosure-document"], ["FINRA Rule 2360 — Options", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2360"]],
       bullets: [
         'One contract = 100 shares. Buyer (long) has the <b>right</b>; seller (writer, short) has the <b>obligation</b>.',
         '<b>Call buyer</b>: bullish — right to buy at the strike. <b>Put buyer</b>: bearish — right to sell at the strike.',
@@ -139,6 +150,7 @@ window.SIE = {
       trap: '"Calls up, puts down" for breakevens — for BOTH buyer and seller of the same option.',
       fact: 'Buyers\' max loss is always the premium paid. Sellers\' max gain is always the premium received.' },
     { s: 2, title: 'Investment companies',
+      src: [["Investor.gov — Mutual funds", "https://www.investor.gov/introduction-investing/investing-basics/investment-products/mutual-funds-and-exchange-traded-funds-etfs/mutual-funds"], ["FINRA Rule 2341 — Investment company securities", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2341"], ["FINRA Regulatory Notice 09-31 — Leveraged and inverse ETFs", "https://www.finra.org/rules-guidance/notices/09-31"]],
       bullets: [
         '<b>Open-end (mutual fund)</b>: continuous new shares, bought at POP (NAV + sales charge), redeemed at NAV; forward pricing; redemption within 7 days.',
         '<b>Closed-end</b>: fixed shares, IPO then trades on an exchange at a premium or discount to NAV.',
@@ -150,6 +162,7 @@ window.SIE = {
       trap: 'Leveraged and inverse ETFs reset daily — generally unsuitable for buy-and-hold retail investors.',
       fact: '"Breakpoint selling" (keeping a purchase just below a breakpoint) is a prohibited practice.' },
     { s: 2, title: 'Annuities, REITs, DPPs & other packaged products',
+      src: [["Investor.gov — Variable annuities", "https://www.investor.gov/introduction-investing/investing-basics/investment-products/annuities/variable-annuities"], ["FINRA Rule 2330 — Deferred variable annuities", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2330"], ["Investor.gov — REITs", "https://www.investor.gov/introduction-investing/investing-basics/investment-products/real-estate-investment-trusts-reits"], ["FINRA Rule 2310 — Direct participation programs", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2310"]],
       bullets: [
         '<b>Variable annuity</b>: insurance + security. Assets in a <b>separate account</b>; the investor bears the investment risk; needs a prospectus and both securities and insurance licenses.',
         'Accumulation units (paying in) → annuity units (paying out). Growth is tax-deferred; earnings taxed as ordinary income on withdrawal; 10% penalty before 59½.',
@@ -161,6 +174,7 @@ window.SIE = {
       trap: 'REITs ≠ DPPs: only DPPs pass through losses.',
       fact: '1035 exchanges let annuity/insurance contracts be swapped without current tax.' },
     { s: 2, title: 'Investment risks',
+      src: [["Investor.gov — What is risk?", "https://www.investor.gov/introduction-investing/investing-basics/what-risk"]],
       bullets: [
         '<b>Systematic</b> (market-wide, cannot be diversified away): market risk, interest rate risk, purchasing power (inflation) risk.',
         '<b>Unsystematic</b> (specific to one company or industry, reduced by diversification): business risk, credit/default risk, regulatory risk, political risk.',
@@ -174,6 +188,7 @@ window.SIE = {
 
     /* ---------- Section 3 ---------- */
     { s: 3, title: 'Order types',
+      src: [["Investor.gov — Types of orders", "https://www.investor.gov/introduction-investing/investing-basics/how-stock-markets-work/types-orders"]],
       bullets: [
         '<b>Market order</b>: executes immediately at the best available price — execution guaranteed, price not.',
         '<b>Buy limit</b>: at or below the limit price. <b>Sell limit</b>: at or above.',
@@ -186,6 +201,7 @@ window.SIE = {
       trap: 'A stop order does not guarantee the stop price — it executes at the next market price, which may gap.',
       fact: 'Customers buy at the ask (offer) and sell at the bid.' },
     { s: 3, title: 'Settlement & payment',
+      src: [["SEC — T+1 settlement rule (2023-29)", "https://www.sec.gov/newsroom/press-releases/2023-29"], ["17 CFR 240.15c6-1 — Settlement cycle", "https://www.ecfr.gov/current/title-17/section-240.15c6-1"], ["Investor.gov — T+1 settlement bulletin", "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/new-t1-settlement-cycle-what-investors-need-know-investor-bulletin"], ["12 CFR 220 — Regulation T", "https://www.ecfr.gov/current/title-12/part-220"]],
       bullets: [
         '<b>Regular way = T+1</b> for corporate stocks, corporate bonds, municipal bonds, Treasuries and listed options.',
         '<b>Cash settlement</b>: same day as the trade.',
@@ -196,6 +212,7 @@ window.SIE = {
       trap: '"Free-riding" = buying and selling before paying in a cash account → 90-day freeze (must pay in full before trading).',
       fact: 'Ex-date = record date because of T+1.' },
     { s: 3, title: 'Cash vs margin accounts',
+      src: [["12 CFR 220 — Regulation T", "https://www.ecfr.gov/current/title-12/part-220"], ["FINRA Rule 4210 — Margin requirements", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/4210"], ["Investor.gov — Margin account", "https://www.investor.gov/introduction-investing/investing-basics/glossary/margin-account"]],
       bullets: [
         '<b>Cash account</b>: pay in full. No short sales, no writing naked options.',
         '<b>Margin account</b>: borrow from the firm. Signed margin agreement = credit agreement + hypothecation agreement (+ optional loan consent).',
@@ -208,6 +225,7 @@ window.SIE = {
       trap: 'Short sales must be done in a margin account. UGMA/UTMA accounts can never be margin accounts.',
       fact: 'A loan consent (to lend customer shares for short sales) is optional; the hypothecation agreement is required.' },
     { s: 3, title: 'Account types',
+      src: [["IRS — IRAs", "https://www.irs.gov/retirement-plans/individual-retirement-arrangements-iras"], ["IRS — Roth IRAs", "https://www.irs.gov/retirement-plans/roth-iras"], ["IRS — Required minimum distributions", "https://www.irs.gov/retirement-plans/retirement-plan-and-ira-required-minimum-distributions-faqs"], ["IRS — Rollovers", "https://www.irs.gov/retirement-plans/plan-participant-employee/rollovers-of-retirement-plan-and-ira-distributions"], ["Investor.gov — Introduction to 529 plans", "https://www.investor.gov/introduction-investing/general-resources/news-alerts/alerts-bulletins/investor-bulletins/introduction-529-plans-investor-bulletin"], ["FINRA Rule 3260 — Discretionary accounts", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/3260"]],
       bullets: [
         '<b>JTWROS</b>: on death, the survivor takes everything. <b>JTIC</b>: the decedent\'s share goes to their estate.',
         '<b>UGMA/UTMA</b>: one custodian, one minor; minor\'s SSN; gifts are irrevocable; no margin; transfers at the age of majority.',
@@ -219,6 +237,7 @@ window.SIE = {
       trap: 'All powers of attorney — even durable — end at death. Executors act on letters testamentary.',
       fact: 'Discretion requires the customer\'s written authorization; time & price discretion alone is good only for that trading day.' },
     { s: 3, title: 'Anti-money laundering',
+      src: [["FINRA Rule 3310 — AML compliance program", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/3310"], ["FINRA — Anti-money laundering", "https://www.finra.org/rules-guidance/key-topics/aml"], ["31 CFR 1010.311 — Currency transaction reports", "https://www.ecfr.gov/current/title-31/section-1010.311"], ["31 CFR 1023.320 — SARs by broker-dealers", "https://www.ecfr.gov/current/title-31/section-1023.320"], ["OFAC", "https://ofac.treasury.gov/"]],
       bullets: [
         'Three stages: <b>placement → layering → integration</b>.',
         '<b>CTR</b>: cash of more than $10,000 in one business day; filed with FinCEN within 15 days.',
@@ -230,6 +249,7 @@ window.SIE = {
       trap: 'Placement is when cash first enters the system — the stage most likely to trigger a CTR.',
       fact: 'Tipping off a customer that a SAR was filed is prohibited.' },
     { s: 3, title: 'Prohibited activities',
+      src: [["Investor.gov — Insider trading", "https://www.investor.gov/introduction-investing/investing-basics/glossary/insider-trading"], ["17 CFR 240.10b5-1 — Trading on MNPI", "https://www.ecfr.gov/current/title-17/section-240.10b5-1"], ["FINRA Rule 5270 — Front running of block transactions", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/5270"], ["Investor.gov — Churning", "https://www.investor.gov/introduction-investing/investing-basics/glossary/churning"], ["FINRA Rule 2150 — Improper use of customer funds; guarantees; sharing", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2150"], ["FINRA Rule 2020 — Manipulative and fraudulent devices", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2020"], ["17 CFR 240.15l-1 — Regulation Best Interest", "https://www.ecfr.gov/current/title-17/section-240.15l-1"]],
       bullets: [
         '<b>Insider trading</b>: trading on material non-public information (MNPI); civil penalty up to 3× the profit made or loss avoided.',
         '<b>Front-running</b>: trading ahead of a known block order.',
@@ -244,6 +264,7 @@ window.SIE = {
 
     /* ---------- Section 4 ---------- */
     { s: 4, title: 'Registration',
+      src: [["FINRA — Registration, exams & CE", "https://www.finra.org/registration-exams-ce"], ["FINRA — SIE exam", "https://www.finra.org/registration-exams-ce/qualification-exams/securities-industry-essentials-exam"], ["FINRA Rule 1210 — Registration requirements", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/1210"]],
       bullets: [
         'Anyone doing securities business for a member firm must be registered. Clerical staff need not be.',
         '<b>Form U4</b>: filed by the firm through CRD at hiring; includes fingerprints and disclosure history.',
@@ -255,6 +276,7 @@ window.SIE = {
       trap: 'FINRA keeps jurisdiction over a former registered person for 2 years after the U5.',
       fact: 'Making false statements on a U4 can itself be a statutory disqualification.' },
     { s: 4, title: 'Statutory disqualification & discipline',
+      src: [["FINRA Rule 9216 — AWC procedures", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/9216"], ["FINRA Rule 8210 — Information requests", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/8210"], ["FINRA — Arbitration & mediation", "https://www.finra.org/arbitration-mediation"]],
       bullets: [
         '<b>Statutory disqualification</b>: any felony within 10 years; certain misdemeanors (securities, fraud, theft) within 10 years; SRO expulsion; injunctions; false filings.',
         '<b>Code of Procedure</b>: FINRA disciplinary process. Settlement = Letter of Acceptance, Waiver and Consent (<b>AWC</b>).',
@@ -266,6 +288,7 @@ window.SIE = {
       trap: 'Arbitration awards generally cannot be appealed. Discipline decisions can.',
       fact: 'Under Rule 8210, FINRA can require any member or associated person to provide information or testimony.' },
     { s: 4, title: 'Continuing education',
+      src: [["FINRA — Continuing education", "https://www.finra.org/registration-exams-ce/continuing-education"], ["FINRA — Maintaining Qualifications Program", "https://www.finra.org/registration-exams-ce/qualification-exams/mqp"], ["FINRA Rule 1240 — Continuing education", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/1240"]],
       bullets: [
         '<b>Regulatory Element</b>: every registered person, <b>annually</b> by December 31.',
         '<b>Firm Element</b>: firm-designed training, at least annually, based on a needs analysis.',
@@ -275,6 +298,7 @@ window.SIE = {
       trap: 'CE inactive does not mean registration is revoked — but the person cannot work or be paid for securities business.',
       fact: 'The SIE itself does not require firm sponsorship.' },
     { s: 4, title: 'Employee conduct',
+      src: [["FINRA Regulatory Notice 26-05 — $300 gift limit", "https://www.finra.org/rules-guidance/notices/26-05"], ["FINRA Rule 3220 — Gifts", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/3220"], ["FINRA Rule 3270 — Outside business activities", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/3270"], ["FINRA Rule 3280 — Private securities transactions", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/3280"], ["FINRA Rule 3210 — Accounts at other firms", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/3210"], ["MSRB Rule G-37 — Political contributions", "https://www.msrb.org/Rules-and-Interpretations/MSRB-Rules/General/Rule-G-37"], ["Morgan Lewis — SEC approves FINRA Rule 3290 (not yet effective)", "https://www.morganlewis.com/pubs/2026/10/sec-approves-finra-rule-3290-reshaping-outside-activity-rules-for-broker-dealers"]],
       bullets: [
         '<b>Rule 3220 gifts</b>: max <b>$300 per person per year</b> to an employee of another firm when related to that person\'s business (Reg Notice 26-05, effective March 30, 2026). The firm aggregates all gifts and keeps records.',
         'Excluded: de minimis promotional items, personal gifts for life events (weddings, births). Business entertainment is OK if the host attends and it is not lavish.',
@@ -286,6 +310,7 @@ window.SIE = {
       trap: 'Old $100 gift limit is gone — the SIE now tests $300.',
       fact: 'New Rule 3290 (replacing 3270/3280) was SEC-approved Sept 2026 but is not yet effective — study 3270/3280.' },
     { s: 4, title: 'Communications with the public (Rule 2210)',
+      src: [["FINRA Rule 2210 — Communications with the public", "https://www.finra.org/rules-guidance/rulebooks/finra-rules/2210"], ["FINRA — Advertising Regulation", "https://www.finra.org/about/how-we-operate/advertising-regulation"]],
       bullets: [
         '<b>Correspondence</b>: to 25 or fewer retail investors within 30 days.',
         '<b>Retail communication</b>: to more than 25 retail investors within 30 days — generally needs principal approval before use.',
