@@ -12,10 +12,10 @@ exec(src, ns)
 html = ns["build_page"]()
 assert 'src="' not in html, "a <script src> was left un-inlined"
 scripts = re.findall(r"<script>(.*?)</script>", html, re.S)
-assert len(scripts) == 3, len(scripts)
+assert len(scripts) == 4, len(scripts)
 with tempfile.NamedTemporaryFile("w", suffix=".js", delete=False) as f:
-    f.write(scripts[2]); path = f.name
+    f.write(scripts[3]); path = f.name
 subprocess.run(["node", "--check", path], check=True); os.unlink(path)
-print(f"page: {len(html):,} bytes, 3 inline scripts, app script parses")
+print(f"page: {len(html):,} bytes, 4 inline scripts, app script parses")
 PYEOF
 echo "check.sh: all green"

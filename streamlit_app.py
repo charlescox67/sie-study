@@ -12,9 +12,9 @@ WEB = Path(__file__).parent / "web"
 
 
 def build_page() -> str:
-    """index.html with content.js and questions.js inlined (the iframe can't fetch sibling files)."""
+    """index.html with its content scripts inlined (the iframe can't fetch sibling files)."""
     html = (WEB / "index.html").read_text(encoding="utf-8")
-    for name in ("content.js", "questions.js"):
+    for name in ("content.js", "slides.js", "questions.js"):
         tag = f'<script src="{name}"></script>'
         if tag not in html:
             raise RuntimeError(f"index.html no longer references {name}")

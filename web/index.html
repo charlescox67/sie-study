@@ -100,6 +100,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .rv{border-top:1px solid var(--line);padding:14px 0}
+select.jump{width:auto;max-width:min(420px,62vw);padding:5px 8px;font-size:.85rem}
 .sources{margin:10px 0 4px;font-size:.85rem;border-top:1px solid var(--line);padding-top:8px}
 .sources summary{cursor:pointer;color:var(--muted);font-weight:600}
 .sources ul{margin:6px 0 0;padding-left:18px}.sources li{margin:3px 0}
@@ -125,6 +126,7 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;
 <main id="view"></main>
 
 <script src="content.js"></script>
+<script src="slides.js"></script>
 <script src="questions.js"></script>
 <script>
 (() => {
@@ -143,6 +145,7 @@ const fmtTime = ms => { const s = Math.max(0, Math.ceil(ms / 1000)); const h = M
 const tone = p => p >= 0.7 ? 'good' : p >= 0.5 ? 'warn' : 'bad';
 
 C.cards.forEach(c => { c.id = 'c' + c.s + '-' + hash(c.f); });
+C.slides.forEach(sl => { sl.id = 's' + sl.s + '-' + hash(sl.title); });
 QB.forEach(q => { q.id = 'q' + q.s + '-' + hash(q.q); });
 const qById = Object.fromEntries(QB.map(q => [q.id, q]));
 
@@ -151,7 +154,7 @@ const KEY = 'sie-study.v1';
 let memCopy = null;
 function load() { try { const raw = localStorage.getItem(KEY); if (raw) return JSON.parse(raw); } catch (e) {} return memCopy; }
 function save() { memCopy = DB; try { localStorage.setItem(KEY, JSON.stringify(DB)); } catch (e) {} }
-function blankProfile(name) { return { id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name, created: Date.now(), lastActive: Date.now(), cards: {}, quiz: {}, exams: [], slides: {}, exam: null }; }
+function blankProfile(name) { return { id: 'p' + Date.now().toString(36) + Math.random().toString(36).slice(2, 6), name, created: Date.now(), lastActive: Date.now(), cards: {}, quiz: {}, exams: [], seen: {}, exam: null }; }
 function addProfile(name) { const p = blankProfile(name); DB.profiles[p.id] = p; DB.order.push(p.id); return p.id; }
 let DB = load() || { profiles: {}, order: [], active: null };
 if (!DB.order.length) { DB.active = addProfile('Partner A'); addProfile('Partner B'); save(); }
@@ -180,7 +183,7 @@ function sectionMastery(p, s) {
 }
 const readiness = p => C.sections.reduce((a, s) => a + s.weight * sectionMastery(p, s.id), 0) / 100;
 const readyLabel = r => r >= 0.85 ? 'Exam ready' : r >= 0.7 ? 'Nearly ready' : r >= 0.5 ? 'Building' : 'Getting started';
-const slidesSeen = p => Object.values(p.slides).reduce((a, v) => a + v.length, 0);
+const slidesSeen = p => C.slides.filter(sl => (p.seen || {})[sl.id]).length;
 const bestExam = p => p.exams.reduce((a, e) => Math.max(a, e.pct), -1);
 
 /* ---------------- UI state ---------------- */
@@ -257,10 +260,11 @@ function secChips(cur, act, withAll) {
 }
 function viewSlides() {
   const list = C.slides.filter(x => x.s === UI.slideSec), i = UI.slideIdx = Math.min(UI.slideIdx, list.length - 1), sl = list[i], p = P();
-  const seen = p.slides[UI.slideSec] || (p.slides[UI.slideSec] = []);
-  if (!seen.includes(i)) { seen.push(i); touch(p); save(); }
+  const seen = p.seen || (p.seen = {});
+  if (!seen[sl.id]) { seen[sl.id] = 1; touch(p); save(); }
   let h = secChips(UI.slideSec, 'slideSec') + `<div class="card slide mt">
-    <div class="row between small muted"><span>Section ${sl.s} · ${esc(SEC[sl.s].name)}</span><span>${i + 1} / ${list.length}</span></div>
+    <div class="row between small muted"><span>Section ${sl.s} · ${esc(SEC[sl.s].name)}</span>
+      <label class="row" style="gap:6px">Topic <select class="inp jump" data-change="slideJump" aria-label="Jump to topic">${list.map((x, k) => `<option value="${k}" ${k === i ? 'selected' : ''}>${k + 1}. ${esc(x.title)}${(p.seen || {})[x.id] ? ' ✓' : ''}</option>`).join('')}</select></label></div>
     <h1 class="mt">${esc(sl.title)}</h1><ul>${sl.bullets.map(b => `<li>${b}</li>`).join('')}</ul>`;
   if (sl.formula) h += `<div class="formula">${esc(sl.formula)}</div>`;
   if (sl.trap) h += `<div class="callout trap"><b>Exam trap</b>${esc(sl.trap)}</div>`;
@@ -570,6 +574,9 @@ document.addEventListener('click', e => {
   const el = e.target.closest('[data-act]'); if (!el || el.disabled) return;
   const fn = A[el.dataset.act]; if (!fn) return;
   if (fn(el.dataset) !== false) render();
+});
+view.addEventListener('change', e => {
+  if (e.target.dataset.change === 'slideJump') { UI.slideIdx = +e.target.value; render(); }
 });
 document.getElementById('profileSel').addEventListener('change', e => {
   if (e.target.value === '__manage') { A.tab({ v: 'dash' }); render(); document.getElementById('partners').scrollIntoView({ behavior: 'smooth' }); return; }

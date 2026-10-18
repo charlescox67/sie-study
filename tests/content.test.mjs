@@ -5,7 +5,7 @@ import assert from 'node:assert/strict';
 
 const ctx = { window: {} };
 vm.createContext(ctx);
-for (const f of ['web/content.js', 'web/questions.js']) vm.runInContext(readFileSync(f, 'utf8'), ctx, { filename: f });
+for (const f of ['web/content.js', 'web/slides.js', 'web/questions.js']) vm.runInContext(readFileSync(f, 'utf8'), ctx, { filename: f });
 const C = ctx.window.SIE, Q = ctx.window.SIE_Q;
 let n = 0; const ok = (cond, msg) => { assert.ok(cond, msg); n++; };
 
@@ -39,10 +39,11 @@ ok(Q.length - 75 >= C.exam.pretest, 'enough leftover questions for pretest items
 ok(C.cards.length >= 50, `50+ flashcards (${C.cards.length})`);
 for (const s of C.sections) {
   ok(C.cards.filter(c => c.s === s.id).length >= 10, `section ${s.id} has >= 10 flashcards`);
-  ok(C.slides.filter(x => x.s === s.id).length >= 4, `section ${s.id} has slides`);
+  ok(C.slides.filter(x => x.s === s.id).length >= 10, `section ${s.id} has 10+ slides`);
 }
 ok(C.slides.every(x => x.title && x.bullets.length && x.trap && x.fact), 'every slide has an exam trap and a high-yield fact');
 ok(new Set(C.cards.map(c => c.f)).size === C.cards.length, 'flashcard fronts unique (they are the progress key)');
+ok(new Set(C.slides.map(x => x.title)).size === C.slides.length, 'slide titles unique (they are the progress key)');
 for (const sl of C.slides) {
   ok(Array.isArray(sl.src) && sl.src.length >= 1, `slide "${sl.title}" lists sources`);
   for (const [label, url] of sl.src) ok(label && /^https:\/\/[^\s"'<>]+$/.test(url), `slide "${sl.title}" source ${url} is an https link`);
