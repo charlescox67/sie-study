@@ -4,18 +4,48 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SIE Study Partner</title>
+<script>try { const m = localStorage.getItem('sie-study.theme'); if (m === 'light' || m === 'dark') document.documentElement.dataset.theme = m; } catch (e) {}</script>
 <style>
 :root{
   --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2d3540; --text:#e6edf3; --muted:#8b949e;
   --accent:#4f8cff; --accent2:#3b6fd1; --good:#2ea043; --good-bg:rgba(46,160,67,.14); --bad:#f85149; --bad-bg:rgba(248,81,73,.13);
-  --warn:#d29922; --warn-bg:rgba(210,153,34,.13); --radius:12px;
+  --warn:#d29922; --warn-bg:rgba(210,153,34,.13); --warn-line:rgba(210,153,34,.4); --radius:12px;
+  --good-text:#7ee787; --bad-text:#ffa198; --link:#79b0ff; --header-bg:rgba(13,17,23,.94); --hover-line:#4a5566;
+  --formula-bg:#0b1020; --formula-line:#2a3a63; --formula-text:#cfe0ff; --face1:#1d2533; --face2:#151a23; --back1:#16263b; --back2:#121a26;
+  --sel-bg:rgba(79,140,255,.12); --nav-ans:rgba(79,140,255,.22); --nav-ans-line:#3b5c9e; color-scheme:dark;
 }
+@media (prefers-color-scheme: light){:root:not([data-theme="dark"]){
+  --bg:#f6f8fa; --panel:#ffffff; --panel2:#eef1f5; --line:#d0d7de; --text:#1f2328; --muted:#59636e;
+  --accent:#2f6fde; --accent2:#2559b8; --good:#1a7f37; --good-bg:rgba(26,127,55,.10); --bad:#cf222e; --bad-bg:rgba(207,34,46,.08);
+  --warn:#9a6700; --warn-bg:rgba(154,103,0,.10); --warn-line:rgba(154,103,0,.35);
+  --good-text:#1a7f37; --bad-text:#c4212c; --link:#0969da; --header-bg:rgba(246,248,250,.94); --hover-line:#8c959f;
+  --formula-bg:#f0f4ff; --formula-line:#b6c8f0; --formula-text:#1c2f5e; --face1:#ffffff; --face2:#f3f5f8; --back1:#eef4ff; --back2:#e3ebfa;
+  --sel-bg:rgba(47,111,222,.10); --nav-ans:rgba(47,111,222,.18); --nav-ans-line:#7da2e6; color-scheme:light;
+}}
+:root[data-theme="light"]{
+  --bg:#f6f8fa; --panel:#ffffff; --panel2:#eef1f5; --line:#d0d7de; --text:#1f2328; --muted:#59636e;
+  --accent:#2f6fde; --accent2:#2559b8; --good:#1a7f37; --good-bg:rgba(26,127,55,.10); --bad:#cf222e; --bad-bg:rgba(207,34,46,.08);
+  --warn:#9a6700; --warn-bg:rgba(154,103,0,.10); --warn-line:rgba(154,103,0,.35);
+  --good-text:#1a7f37; --bad-text:#c4212c; --link:#0969da; --header-bg:rgba(246,248,250,.94); --hover-line:#8c959f;
+  --formula-bg:#f0f4ff; --formula-line:#b6c8f0; --formula-text:#1c2f5e; --face1:#ffffff; --face2:#f3f5f8; --back1:#eef4ff; --back2:#e3ebfa;
+  --sel-bg:rgba(47,111,222,.10); --nav-ans:rgba(47,111,222,.18); --nav-ans-line:#7da2e6; color-scheme:light;
+}
+:root[data-theme="dark"]{
+  --bg:#0d1117; --panel:#161b22; --panel2:#1c2330; --line:#2d3540; --text:#e6edf3; --muted:#8b949e;
+  --accent:#4f8cff; --accent2:#3b6fd1; --good:#2ea043; --good-bg:rgba(46,160,67,.14); --bad:#f85149; --bad-bg:rgba(248,81,73,.13);
+  --warn:#d29922; --warn-bg:rgba(210,153,34,.13); --warn-line:rgba(210,153,34,.4); --radius:12px;
+  --good-text:#7ee787; --bad-text:#ffa198; --link:#79b0ff; --header-bg:rgba(13,17,23,.94); --hover-line:#4a5566;
+  --formula-bg:#0b1020; --formula-line:#2a3a63; --formula-text:#cfe0ff; --face1:#1d2533; --face2:#151a23; --back1:#16263b; --back2:#121a26;
+  --sel-bg:rgba(79,140,255,.12); --nav-ans:rgba(79,140,255,.22); --nav-ans-line:#3b5c9e; color-scheme:dark;
+}
+.themebtn{background:var(--panel);border:1px solid var(--line);border-radius:8px;padding:6px 9px;cursor:pointer;color:var(--text);white-space:nowrap;font-size:.85rem}
+.themebtn:hover{border-color:var(--hover-line)}
 *{box-sizing:border-box}
 html,body{margin:0;background:var(--bg);color:var(--text);font:15px/1.5 -apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;-webkit-text-size-adjust:100%}
 button{font:inherit;color:inherit}
 h1,h2,h3{line-height:1.25;margin:0 0 .5em}
 h1{font-size:1.5rem} h2{font-size:1.2rem} h3{font-size:1rem}
-.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;background:rgba(13,17,23,.94);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
+.top{position:sticky;top:0;z-index:20;display:flex;align-items:center;gap:12px;padding:10px 16px;background:var(--header-bg);backdrop-filter:blur(6px);border-bottom:1px solid var(--line)}
 .brand{font-weight:800;letter-spacing:.3px;white-space:nowrap}.brand span{color:var(--accent);margin-left:3px}
 #tabs{display:flex;gap:4px;overflow-x:auto;flex:1;scrollbar-width:none}#tabs::-webkit-scrollbar{display:none}
 .tab{background:none;border:0;padding:8px 12px;border-radius:8px;color:var(--muted);cursor:pointer;white-space:nowrap}
@@ -27,7 +57,7 @@ main{max-width:1000px;margin:0 auto;padding:20px 16px 60px}
 .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}.end{justify-content:flex-end}.between{justify-content:space-between}
 .muted{color:var(--muted)}.small{font-size:.85rem}.mt{margin-top:16px}.mb{margin-bottom:16px}
 .btn{background:var(--panel2);border:1px solid var(--line);border-radius:9px;padding:9px 14px;cursor:pointer;font-weight:600}
-.btn:hover{border-color:#46505e}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.primary:hover{background:var(--accent2)}
+.btn:hover{border-color:var(--hover-line)}.btn.primary{background:var(--accent);border-color:var(--accent);color:#fff}.btn.primary:hover{background:var(--accent2)}
 .btn.good{background:var(--good);border-color:var(--good);color:#fff}.btn.bad{background:transparent;border-color:var(--bad);color:var(--bad)}
 .btn.danger{border-color:var(--bad);color:var(--bad);background:transparent}.btn.sm{padding:5px 10px;font-size:.85rem}
 .btn:disabled{opacity:.45;cursor:default}
@@ -50,11 +80,11 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;
 /* slides */
 .slide{min-height:380px;display:flex;flex-direction:column}
 .slide ul{padding-left:20px;margin:0 0 12px}.slide li{margin:6px 0}
-.formula{background:#0b1020;border:1px solid #2a3a63;border-radius:10px;padding:12px 14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;white-space:pre-wrap;color:#cfe0ff;margin:6px 0 12px}
+.formula{background:var(--formula-bg);border:1px solid var(--formula-line);border-radius:10px;padding:12px 14px;font-family:ui-monospace,Menlo,Consolas,monospace;font-size:.88rem;white-space:pre-wrap;color:var(--formula-text);margin:6px 0 12px}
 .callout{border-radius:10px;padding:10px 14px;margin:6px 0;border-left:4px solid}
 .callout b{display:block;font-size:.75rem;letter-spacing:.06em;text-transform:uppercase;margin-bottom:2px}
 .trap{background:var(--bad-bg);border-color:var(--bad)}.trap b{color:var(--bad)}
-.fact{background:var(--good-bg);border-color:var(--good)}.fact b{color:#56d364}
+.fact{background:var(--good-bg);border-color:var(--good)}.fact b{color:var(--good-text)}
 .dots{display:flex;gap:6px;justify-content:center;flex-wrap:wrap}
 .dot{width:10px;height:10px;border-radius:50%;background:var(--line);border:0;padding:0;cursor:pointer}.dot.on{background:var(--accent);transform:scale(1.25)}
 /* flashcards */
@@ -62,41 +92,41 @@ table{width:100%;border-collapse:collapse}th,td{text-align:left;padding:8px 6px;
 .flip .inner{position:relative;width:100%;height:100%;transition:transform .55s cubic-bezier(.3,.7,.2,1);transform-style:preserve-3d}
 .flip.on .inner{transform:rotateY(180deg)}
 .face{position:absolute;inset:0;backface-visibility:hidden;-webkit-backface-visibility:hidden;border-radius:16px;border:1px solid var(--line);
-  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;background:linear-gradient(160deg,#1d2533,#151a23)}
+  display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center;padding:26px;background:linear-gradient(160deg,var(--face1),var(--face2))}
 .face .q{font-size:1.25rem;font-weight:700}.face .a{font-size:1.1rem}
 .face .lab{position:absolute;top:12px;left:16px;font-size:.75rem;color:var(--muted);letter-spacing:.05em;text-transform:uppercase}
-.back{transform:rotateY(180deg);background:linear-gradient(160deg,#16263b,#121a26)}
+.back{transform:rotateY(180deg);background:linear-gradient(160deg,var(--back1),var(--back2))}
 .state{position:absolute;top:12px;right:16px}
 @media (prefers-reduced-motion:reduce){.flip .inner{transition:none}}
 /* questions */
 .stem{font-size:1.12rem;font-weight:600;margin:14px 0}
 .choices{list-style:none;padding:0;margin:0;display:grid;gap:8px}
 .choice{width:100%;display:flex;gap:12px;align-items:flex-start;text-align:left;background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:11px 14px;cursor:pointer}
-.choice:hover{border-color:#4a5566}.choice[tabindex="-1"]{cursor:default}
+.choice:hover{border-color:var(--hover-line)}.choice[tabindex="-1"]{cursor:default}
 .choice .letter{flex:0 0 26px;height:26px;border-radius:50%;display:grid;place-items:center;background:var(--bg);border:1px solid var(--line);font-size:.85rem}
 .choice span{flex:1}
-.choice.sel{border-color:var(--accent);background:rgba(79,140,255,.12)}.choice.sel .letter{background:var(--accent);border-color:var(--accent);color:#fff}
+.choice.sel{border-color:var(--accent);background:var(--sel-bg)}.choice.sel .letter{background:var(--accent);border-color:var(--accent);color:#fff}
 .choice.good{border-color:var(--good);background:var(--good-bg)}.choice.good .letter{background:var(--good);border-color:var(--good);color:#fff}
 .choice.bad{border-color:var(--bad);background:var(--bad-bg)}.choice.bad .letter{background:var(--bad);border-color:var(--bad);color:#fff}
 .choice.dim{opacity:.75}
-.why{margin:4px 4px 8px 40px;font-size:.88rem;color:var(--muted)}.why.good{color:#7ee787}.why.bad{color:#ffa198}
+.why{margin:4px 4px 8px 40px;font-size:.88rem;color:var(--muted)}.why.good{color:var(--good-text)}.why.bad{color:var(--bad-text)}
 .tag{font-size:.72rem;background:var(--bg);border:1px solid var(--line);border-radius:99px;padding:1px 8px;margin-left:4px;white-space:nowrap}
 .progress{height:5px;background:var(--panel2);border-radius:99px;overflow:hidden;margin-top:10px}.progress i{display:block;height:100%;background:var(--accent)}
 .vs{display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-top:16px}
 .vsp{background:var(--panel2);border:1px solid var(--line);border-radius:10px;padding:12px;text-align:center}
 .vsname{font-weight:700;margin-bottom:8px}.lbtns{display:flex;gap:6px;justify-content:center}
 .lbtn{width:44px;height:44px;border-radius:10px;border:1px solid var(--line);background:var(--bg);cursor:pointer;font-weight:700}.lbtn:hover{border-color:var(--accent)}
-.locked{color:#7ee787;font-weight:600}
+.locked{color:var(--good-text);font-weight:600}
 .score2{display:flex;gap:8px;flex-wrap:wrap}
 /* exam */
 .exambar{position:sticky;top:57px;z-index:10;display:flex;gap:8px;align-items:center;flex-wrap:wrap;background:var(--panel);border:1px solid var(--line);border-radius:var(--radius);padding:10px 12px;margin-bottom:14px}
 .timer{font:700 1.25rem ui-monospace,Menlo,monospace;min-width:92px}.timer.low{color:var(--bad)}
 .navgrid{display:grid;grid-template-columns:repeat(auto-fill,minmax(38px,1fr));gap:6px}
 .nb{height:36px;border-radius:8px;border:1px solid var(--line);background:var(--panel2);cursor:pointer;font-size:.8rem;position:relative}
-.nb.ans{background:rgba(79,140,255,.22);border-color:#3b5c9e}.nb.cur{outline:2px solid var(--accent);outline-offset:1px}
+.nb.ans{background:var(--nav-ans);border-color:var(--nav-ans-line)}.nb.cur{outline:2px solid var(--accent);outline-offset:1px}
 .nb.flag::after{content:"";position:absolute;top:3px;right:3px;width:7px;height:7px;border-radius:50%;background:var(--warn)}
 .paused{text-align:center;padding:60px 20px}
-.verdict{font-size:2rem;font-weight:800}.verdict.pass{color:#56d364}.verdict.fail{color:var(--bad)}
+.verdict{font-size:2rem;font-weight:800}.verdict.pass{color:var(--good-text)}.verdict.fail{color:var(--bad)}
 .legend{display:flex;gap:14px;flex-wrap:wrap;font-size:.8rem;color:var(--muted)}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:5px;vertical-align:-1px}
 .rv{border-top:1px solid var(--line);padding:14px 0}
@@ -104,8 +134,8 @@ select.jump{width:auto;max-width:min(420px,62vw);padding:5px 8px;font-size:.85re
 .sources{margin:10px 0 4px;font-size:.85rem;border-top:1px solid var(--line);padding-top:8px}
 .sources summary{cursor:pointer;color:var(--muted);font-weight:600}
 .sources ul{margin:6px 0 0;padding-left:18px}.sources li{margin:3px 0}
-.sources a{color:#79b0ff}.sources a:hover{text-decoration:underline}.sources .muted{font-size:.78rem}
-.note{background:var(--warn-bg);border:1px solid rgba(210,153,34,.4);border-radius:10px;padding:10px 14px;font-size:.9rem}
+.sources a{color:var(--link)}.sources a:hover{text-decoration:underline}.sources .muted{font-size:.78rem}
+.note{background:var(--warn-bg);border:1px solid var(--warn-line);border-radius:10px;padding:10px 14px;font-size:.9rem}
 @media (max-width:760px){
   .g4{grid-template-columns:repeat(2,minmax(0,1fr))}.g2{grid-template-columns:1fr}
   .hero{flex-direction:column;align-items:flex-start}
@@ -121,7 +151,7 @@ select.jump{width:auto;max-width:min(420px,62vw);padding:5px 8px;font-size:.85re
 <header class="top">
   <div class="brand">SIE<span>Study</span></div>
   <nav id="tabs" aria-label="Modules"></nav>
-  <div class="who"><select id="profileSel" aria-label="Active study partner"></select></div>
+  <div class="who row" style="gap:8px;flex-wrap:nowrap"><button class="themebtn" id="themeBtn" data-act="theme" aria-label="Color theme"></button><select id="profileSel" aria-label="Active study partner"></select></div>
 </header>
 <main id="view"></main>
 
@@ -196,6 +226,9 @@ function render() {
   document.getElementById('tabs').innerHTML = TABS.map(([k, n]) => `<button class="tab ${UI.tab === k ? 'on' : ''}" data-act="tab" data-v="${k}">${n}</button>`).join('');
   const sel = document.getElementById('profileSel');
   sel.innerHTML = DB.order.map(id => `<option value="${id}" ${id === DB.active ? 'selected' : ''}>${esc(profile(id).name)}</option>`).join('') + '<option value="__manage">Manage partners…</option>';
+  const mode = document.documentElement.dataset.theme || 'auto';
+  document.getElementById('themeBtn').textContent = { auto: '◐ Auto', light: '☀ Light', dark: '☾ Dark' }[mode];
+  document.getElementById('themeBtn').title = 'Theme: ' + mode + ' (click to change)';
   view.innerHTML = ({ dash: viewDash, slides: viewSlides, cards: viewCards, quiz: viewQuiz, exam: viewExam })[UI.tab]();
   if (UI.tab === 'exam' && UI.examView === 'take') updateTimer();
 }
@@ -288,7 +321,7 @@ function buildDeck() {
 function viewCards() {
   if (!UI.deck) buildDeck();
   const p = P(), st = cardStats(p, UI.cardSec), id = UI.deck[UI.cardIdx], c = C.cards.find(x => x.id === id), cs = p.cards[id];
-  const state = !cs ? '<span class="pill">new</span>' : cs.m ? '<span class="pill" style="color:#7ee787">mastered</span>' : '<span class="pill" style="color:#ffa198">needs review</span>';
+  const state = !cs ? '<span class="pill">new</span>' : cs.m ? '<span class="pill" style="color:var(--good-text)">mastered</span>' : '<span class="pill" style="color:var(--bad-text)">needs review</span>';
   return secChips(UI.cardSec, 'cardSec', true) + `
     <div class="row between mt small"><span>Card ${UI.cardIdx + 1} of ${UI.deck.length}</span>
       <span class="muted">${st.mastered} mastered · ${st.review} needs review · ${st.fresh} new · ${st.due} due now</span></div>
@@ -378,9 +411,9 @@ function quizResults() {
   h += `<div class="row"><button class="btn primary" data-act="quizAgain">Try another set</button><button class="btn" data-act="quizQuit">All quizzes</button></div><h2 class="mt">Review</h2>`;
   Q.items.forEach((it, k) => {
     const q = qById[it.id], ci = correctIdx(it);
-    const marks = Q.players.map((pid, pi) => { const pk = Q.picks[pi][k]; return `<span class="tag" style="color:${pk === ci ? '#7ee787' : '#ffa198'}">${Q.players.length > 1 ? esc(profile(pid).name) + ': ' : ''}${pk == null ? '—' : L[pk]} ${pk === ci ? '✓' : '✗'}</span>`; }).join(' ');
+    const marks = Q.players.map((pid, pi) => { const pk = Q.picks[pi][k]; return `<span class="tag" style="color:${pk === ci ? 'var(--good-text)' : 'var(--bad-text)'}">${Q.players.length > 1 ? esc(profile(pid).name) + ': ' : ''}${pk == null ? '—' : L[pk]} ${pk === ci ? '✓' : '✗'}</span>`; }).join(' ');
     h += `<div class="rv"><div class="row between"><b>${k + 1}. ${esc(q.q)}</b><span>${marks}</span></div>
-      <div class="small mt"><span style="color:#7ee787">Answer ${L[ci]}: ${esc(q.c[q.a])}</span> — ${esc(q.e[q.a])}</div></div>`;
+      <div class="small mt"><span style="color:var(--good-text)">Answer ${L[ci]}: ${esc(q.c[q.a])}</span> — ${esc(q.e[q.a])}</div></div>`;
   });
   return h + `</div>`;
 }
@@ -421,7 +454,7 @@ function viewExam() {
     <div class="row">${p.exam ? `<button class="btn primary" data-act="examResume">Resume exam (${fmtTime(p.exam.remaining)} left, ${p.exam.picks.filter(x => x != null).length}/${EX.total} answered)</button><button class="btn danger" data-act="examDiscard">Discard it</button>` : `<button class="btn primary" data-act="examStart">Start mock exam</button>`}</div></div>`;
   if (p.exams.length) {
     h += `<div class="card mt"><h2>History · ${esc(p.name)}</h2><table><thead><tr><th>Date</th><th>Score</th><th>Result</th><th>Time used</th><th></th></tr></thead><tbody>`;
-    p.exams.map((e, i) => [e, i]).reverse().forEach(([e, i]) => { h += `<tr><td>${fmtDate(e.date)}</td><td class="num">${e.correct}/${e.total} (${pct(e.pct)}%)</td><td style="color:${e.pass ? '#56d364' : 'var(--bad)'}">${e.pass ? 'PASS' : 'FAIL'}</td><td class="num">${fmtTime(e.usedMs)}</td><td><button class="btn sm" data-act="examView" data-i="${i}">Review</button></td></tr>`; });
+    p.exams.map((e, i) => [e, i]).reverse().forEach(([e, i]) => { h += `<tr><td>${fmtDate(e.date)}</td><td class="num">${e.correct}/${e.total} (${pct(e.pct)}%)</td><td style="color:${e.pass ? 'var(--good-text)' : 'var(--bad)'}">${e.pass ? 'PASS' : 'FAIL'}</td><td class="num">${fmtTime(e.usedMs)}</td><td><button class="btn sm" data-act="examView" data-i="${i}">Review</button></td></tr>`; });
     h += `</tbody></table></div>`;
   }
   return h;
@@ -444,7 +477,7 @@ function examTake() {
     <div class="stem">${esc(q.q)}</div><ol class="choices">${it.order.map((orig, k) => `<li><button class="choice ${ex.picks[ex.i] === k ? 'sel' : ''}" data-act="examPick" data-k="${k}"><b class="letter">${L[k]}</b><span>${esc(q.c[orig])}</span></button></li>`).join('')}</ol>
     <div class="row between mt"><button class="btn" data-act="examGo" data-i="${ex.i - 1}" ${ex.i === 0 ? 'disabled' : ''}>← Previous</button>
     ${ex.i + 1 < ex.items.length ? `<button class="btn primary" data-act="examGo" data-i="${ex.i + 1}">Next →</button>` : `<button class="btn primary" data-act="examSubmitAsk">Finish &amp; submit</button>`}</div></div>`;
-  if (UI.examNav) h += `<div class="card mt"><div class="legend mb"><span><i style="background:rgba(79,140,255,.4)"></i>answered</span><span><i style="background:var(--warn)"></i>flagged</span><span><i style="background:var(--panel2);border:1px solid var(--line)"></i>blank</span></div>
+  if (UI.examNav) h += `<div class="card mt"><div class="legend mb"><span><i style="background:var(--nav-ans)"></i>answered</span><span><i style="background:var(--warn)"></i>flagged</span><span><i style="background:var(--panel2);border:1px solid var(--line)"></i>blank</span></div>
     <div class="navgrid">${ex.items.map((_, k) => `<button class="nb ${ex.picks[k] != null ? 'ans' : ''} ${ex.flags[k] ? 'flag' : ''} ${k === ex.i ? 'cur' : ''}" data-act="examGo" data-i="${k}">${k + 1}</button>`).join('')}</div></div>`;
   return h + `<p class="muted small mt">Keys: A–D or 1–4 to answer · ← → to move · F to flag.</p>`;
 }
@@ -491,6 +524,11 @@ function pauseRunningExam() { const ex = P().exam; if (ex && !ex.paused && UI.ex
 
 /* ---------------- actions ---------------- */
 const A = {
+  theme: () => {
+    const next = { auto: 'light', light: 'dark', dark: 'auto' }[document.documentElement.dataset.theme || 'auto'];
+    if (next === 'auto') delete document.documentElement.dataset.theme; else document.documentElement.dataset.theme = next;
+    try { localStorage.setItem('sie-study.theme', next); } catch (e) {}
+  },
   tab: d => { if (UI.tab === 'exam' && d.v !== 'exam') pauseRunningExam(); UI.tab = d.v; UI.msg = ''; if (d.v === 'exam' && P().exam) UI.examView = 'take'; },
   go: d => { A.tab(d); const s = +d.s; if (d.v === 'slides') { UI.slideSec = s; UI.slideIdx = 0; } if (d.v === 'cards') { UI.cardSec = s; buildDeck(); } },
   switch: d => { pauseRunningExam(); DB.active = d.id; UI.deck = null; UI.quiz = null; UI.examView = 'home'; UI.renaming = null; save(); },

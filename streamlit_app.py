@@ -31,6 +31,9 @@ st.markdown(
       header[data-testid="stHeader"], footer, #MainMenu, [data-testid="stToolbar"],
       [data-testid="stDecoration"], [data-testid="stStatusWidget"] { display: none !important; }
       .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] { background: #0d1117; }
+      @media (prefers-color-scheme: light) {
+        .stApp, [data-testid="stAppViewContainer"], [data-testid="stMain"] { background: #f6f8fa; }
+      }
       .block-container, [data-testid="stMainBlockContainer"] { padding: 0 !important; max-width: 100% !important; }
       [data-testid="stVerticalBlock"] { gap: 0 !important; }
       iframe { display: block; height: 100vh !important; border: 0; }
